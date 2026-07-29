@@ -1,11 +1,21 @@
 const invitationData = {
   couple: {
-    initials: "ع • ف",
+    initials: "M & A",
+    sealLetters: ["M", "A"],
   },
 
   intro: {
-    smallText: "دعوة زفاف",
+    eyebrow: "WEDDING INVITATION",
+    cardTitle: "بطاقة الدعوة",
     openLabel: "اضغط لفتح الدعوة",
+    openingLabel: "جارٍ فتح الدعوة",
+  },
+
+  hero: {
+    eyebrow: "بكل الحب",
+    title: "أهلًا وسهلًا بكم",
+    subtitle:
+      "يسعدنا أن تشاركونا فرحتنا في يومنا المميز",
   },
 };
 

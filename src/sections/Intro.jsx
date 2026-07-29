@@ -1,23 +1,43 @@
-import { useState } from "react";
-import { motion } from "motion/react";
+import {
+  motion,
+  useReducedMotion,
+} from "motion/react";
 
-import introBackground from "../assets/images/intro-bg.webp";
 import envelopeBody from "../assets/envelope/envelope-body.svg";
 import envelopeFlap from "../assets/envelope/envelope-flap.svg";
+import introBackground from "../assets/images/intro-bg.webp";
+import invitationData from "../data/invitationData";
 
-export default function Intro({ onOpen }) {
-  const [isOpening, setIsOpening] = useState(false);
+export default function Intro({
+  onOpen,
+  isOpening = false,
+}) {
+  const shouldReduceMotion = useReducedMotion();
+
+  const { couple, intro } = invitationData;
+
+  const [firstLetter, secondLetter] =
+    couple.sealLetters;
 
   const handleOpenEnvelope = () => {
     if (isOpening) return;
 
-    setIsOpening(true);
     onOpen?.();
   };
 
   return (
-    <section
+    <motion.section
       dir="rtl"
+      initial={
+        shouldReduceMotion
+          ? false
+          : { opacity: 0 }
+      }
+      animate={{ opacity: 1 }}
+      transition={{
+        duration: 0.55,
+        ease: "easeOut",
+      }}
       className="
         relative flex min-h-[100svh] w-full
         items-center justify-center overflow-hidden
@@ -30,6 +50,8 @@ export default function Intro({ onOpen }) {
         alt=""
         aria-hidden="true"
         draggable="false"
+        decoding="async"
+        fetchPriority="high"
         className="
           pointer-events-none absolute inset-0
           h-full w-full select-none
@@ -37,12 +59,12 @@ export default function Intro({ onOpen }) {
         "
       />
 
-      {/* Soft overlay */}
+      {/* Background overlay */}
       <div
         aria-hidden="true"
         className="
           pointer-events-none absolute inset-0
-          bg-white/[0.03]
+          bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(247,238,230,0.08))]
         "
       />
 
@@ -50,11 +72,42 @@ export default function Intro({ onOpen }) {
         className="
           relative z-10 flex min-h-[100svh] w-full
           max-w-[460px] flex-col items-center justify-center
-          px-5 pb-8 pt-6
+          px-5
+          pb-[max(2rem,env(safe-area-inset-bottom))]
+          pt-[max(1.5rem,env(safe-area-inset-top))]
         "
       >
-        <div className="flex w-full flex-col items-center">
-          {/* Envelope */}
+        <motion.div
+          animate={
+            shouldReduceMotion
+              ? undefined
+              : {
+                  y: isOpening
+                    ? -4
+                    : [0, -2, 0],
+                }
+          }
+          transition={
+            isOpening
+              ? {
+                  duration: 0.35,
+                  ease: "easeOut",
+                }
+              : {
+                  duration: 4.2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }
+          }
+          className="
+            relative flex w-full flex-col items-center
+            rounded-[28px]
+            focus-within:outline
+            focus-within:outline-2
+            focus-within:outline-offset-4
+            focus-within:outline-[#b88d3c]/45
+          "
+        >
           <div
             className="
               relative aspect-[1000/700]
@@ -81,17 +134,23 @@ export default function Intro({ onOpen }) {
                 "
               >
                 <span
+                  dir="ltr"
                   className="
                     mb-2 text-[8px]
                     tracking-[0.3em]
                     text-[#aa9178]
                   "
                 >
-                  WEDDING INVITATION
+                  {intro.eyebrow}
                 </span>
 
-                <p className="font-serif text-xl text-[#765f4c]">
-                  بطاقة الدعوة
+                <p
+                  className="
+                    font-serif text-xl
+                    text-[#765f4c]
+                  "
+                >
+                  {intro.cardTitle}
                 </p>
               </div>
             </div>
@@ -124,85 +183,105 @@ export default function Intro({ onOpen }) {
               "
             />
 
-            {/* CSS seal */}
-            <motion.button
-              type="button"
-              onClick={handleOpenEnvelope}
-              disabled={isOpening}
-              aria-label="فتح الدعوة"
+            {/* Gold seal */}
+            <motion.span
+              aria-hidden="true"
               animate={
                 isOpening
                   ? {
                       scale: 0.72,
                       opacity: 0,
                     }
-                  : {
-                      scale: [1, 1.035, 1],
-                      opacity: 1,
-                    }
+                  : shouldReduceMotion
+                    ? {
+                        scale: 1,
+                        opacity: 1,
+                      }
+                    : {
+                        scale: [1, 1.045, 1],
+                        opacity: 1,
+                      }
               }
               transition={
                 isOpening
                   ? {
-                      duration: 0.3,
+                      duration: 0.28,
                       ease: "easeIn",
                     }
                   : {
-                      duration: 2.2,
+                      duration: 2.1,
                       repeat: Infinity,
-                      repeatDelay: 1.8,
+                      repeatDelay: 1.7,
                       ease: "easeInOut",
                     }
               }
               className="
-                absolute left-1/2 top-[50%] z-40
+                absolute left-1/2 top-1/2 z-40
                 -translate-x-1/2 -translate-y-1/2
-                cursor-pointer rounded-full
-                focus-visible:outline-none
-                focus-visible:ring-4
-                focus-visible:ring-[#c59a45]/25
-                disabled:pointer-events-none
               "
             >
-              <span className="gold-seal" aria-hidden="true">
+              <span className="gold-seal">
                 <span className="gold-seal__center">
-                  <span className="gold-seal__letters">
-                    <span className="gold-seal__m">M</span>
-                    <span className="gold-seal__a">A</span>
+                  <span
+                    className="gold-seal__letters"
+                    dir="ltr"
+                  >
+                    <span className="gold-seal__first">
+                      {firstLetter}
+                    </span>
+
+                    <span className="gold-seal__second">
+                      {secondLetter}
+                    </span>
                   </span>
                 </span>
               </span>
-            </motion.button>
+            </motion.span>
           </div>
 
-          {/* Instruction */}
-          <motion.button
-            type="button"
-            onClick={handleOpenEnvelope}
-            disabled={isOpening}
+          {/* Open label */}
+          <motion.p
+            id="open-invitation-label"
             animate={{
               opacity: isOpening ? 0 : 1,
               y: isOpening ? 5 : 0,
             }}
             transition={{
-              duration: 0.3,
+              duration: 0.25,
             }}
             className="
-              -mt-1 cursor-pointer
-              px-4 py-3
+              -mt-1 px-4 py-3
               text-center text-[13px]
               font-normal text-[#78695c]
               drop-shadow-sm
-              transition-opacity duration-200
-              hover:opacity-70
-              active:opacity-50
-              disabled:pointer-events-none
             "
           >
-            اضغط لفتح الدعوة
-          </motion.button>
-        </div>
+            {isOpening
+              ? intro.openingLabel
+              : intro.openLabel}
+          </motion.p>
+
+          {/* Button covering envelope and label */}
+          <button
+            type="button"
+            onClick={handleOpenEnvelope}
+            disabled={isOpening}
+            aria-labelledby="open-invitation-label"
+            className="
+              absolute inset-0 z-50
+              cursor-pointer rounded-[28px]
+              bg-transparent focus:outline-none
+              disabled:cursor-default
+            "
+          >
+            <span className="sr-only">
+              {isOpening
+                ? intro.openingLabel
+                : intro.openLabel}
+            </span>
+          </button>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

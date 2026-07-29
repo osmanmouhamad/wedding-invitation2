@@ -1,43 +1,49 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { AnimatePresence } from "motion/react";
 
-import Intro from "./sections/Intro";
 import PetalTransition from "./components/PetalTransition";
+import Hero from "./sections/Hero";
+import Intro from "./sections/Intro";
+
+const SCREEN = {
+  INTRO: "intro",
+  HERO: "hero",
+};
 
 export default function App() {
-  const [screen, setScreen] = useState("intro");
+  const [screen, setScreen] = useState(SCREEN.INTRO);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const handleOpenInvitation = () => {
-    if (isTransitioning) return;
+  const handleOpenInvitation = useCallback(() => {
+    setIsTransitioning((currentValue) => {
+      if (currentValue || screen !== SCREEN.INTRO) {
+        return currentValue;
+      }
 
-    setIsTransitioning(true);
-  };
+      return true;
+    });
+  }, [screen]);
 
-  const handleScreenCovered = () => {
-    setScreen("hero");
-  };
+  const handleScreenCovered = useCallback(() => {
+    setScreen(SCREEN.HERO);
+  }, []);
 
-  const handleTransitionComplete = () => {
+  const handleTransitionComplete = useCallback(() => {
     setIsTransitioning(false);
-  };
+  }, []);
 
   return (
-    <main className="relative min-h-[100svh] overflow-hidden">
-      {screen === "intro" ? (
-        <Intro onOpen={handleOpenInvitation} />
+    <main
+      className="relative min-h-[100svh] overflow-hidden bg-[#f6efe8]"
+      aria-busy={isTransitioning}
+    >
+      {screen === SCREEN.INTRO ? (
+        <Intro
+          onOpen={handleOpenInvitation}
+          isOpening={isTransitioning}
+        />
       ) : (
-        <section
-          className="
-            flex min-h-[100svh]
-            items-center justify-center
-            bg-[#f8f1e9]
-          "
-        >
-          <h1 className="font-serif text-5xl text-[#725d4c]">
-            M &amp; A
-          </h1>
-        </section>
+        <Hero />
       )}
 
       <AnimatePresence>
