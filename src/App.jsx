@@ -1,43 +1,38 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence } from "motion/react";
 
 import PetalTransition from "./components/PetalTransition";
 import Hero from "./sections/Hero";
 import Intro from "./sections/Intro";
 
-const SCREEN = {
-  INTRO: "intro",
-  HERO: "hero",
-};
-
 export default function App() {
-  const [screen, setScreen] = useState(SCREEN.INTRO);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [screen, setScreen] = useState("intro");
+  const [isTransitioning, setIsTransitioning] =
+    useState(false);
 
-  const handleOpenInvitation = useCallback(() => {
-    setIsTransitioning((currentValue) => {
-      if (currentValue || screen !== SCREEN.INTRO) {
-        return currentValue;
-      }
+  const handleOpenInvitation = () => {
+    if (isTransitioning) return;
 
-      return true;
-    });
-  }, [screen]);
+    setIsTransitioning(true);
+  };
 
-  const handleScreenCovered = useCallback(() => {
-    setScreen(SCREEN.HERO);
-  }, []);
+  const handleScreenCovered = () => {
+    setScreen("hero");
+  };
 
-  const handleTransitionComplete = useCallback(() => {
+  const handleTransitionComplete = () => {
     setIsTransitioning(false);
-  }, []);
+  };
 
   return (
     <main
-      className="relative min-h-[100svh] overflow-hidden bg-[#f6efe8]"
+      className="
+        relative min-h-[100svh]
+        overflow-hidden bg-[#f6efe8]
+      "
       aria-busy={isTransitioning}
     >
-      {screen === SCREEN.INTRO ? (
+      {screen === "intro" ? (
         <Intro
           onOpen={handleOpenInvitation}
           isOpening={isTransitioning}

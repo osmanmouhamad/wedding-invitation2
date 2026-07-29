@@ -15,7 +15,6 @@ export default function Intro({
   const shouldReduceMotion = useReducedMotion();
 
   const { couple, intro } = invitationData;
-
   const [firstLetter, secondLetter] =
     couple.sealLetters;
 
@@ -108,22 +107,63 @@ export default function Intro({
             focus-within:outline-[#b88d3c]/45
           "
         >
+          {/* Envelope wrapper */}
           <div
             className="
               relative aspect-[1000/700]
               w-full max-w-[400px]
+              [perspective:1100px]
             "
           >
+            {/* Envelope inner shadow */}
+            <motion.div
+              aria-hidden="true"
+              initial={false}
+              animate={{
+                opacity: isOpening ? 1 : 0,
+                scaleY: isOpening ? 1 : 0.55,
+              }}
+              transition={{
+                duration: 0.4,
+                delay: isOpening ? 0.16 : 0,
+                ease: "easeOut",
+              }}
+              className="
+                pointer-events-none absolute
+                left-1/2 top-[17%] z-[8]
+                h-[31%] w-[65%]
+                -translate-x-1/2
+                origin-top
+                bg-[linear-gradient(180deg,rgba(91,62,45,0.28),rgba(91,62,45,0.02))]
+                [clip-path:polygon(0_0,100%_0,50%_100%)]
+              "
+            />
+
             {/* Invitation card */}
-            <div
+            <motion.div
+              initial={false}
+              animate={{
+                y: isOpening ? "-19%" : "0%",
+                scale: isOpening ? 1.025 : 1,
+              }}
+              transition={{
+                duration: shouldReduceMotion
+                  ? 0.2
+                  : 0.65,
+                delay: isOpening ? 0.28 : 0,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              style={{
+                x: "-50%",
+              }}
               className="
                 absolute left-1/2 top-[16%] z-10
                 h-[56%] w-[67%]
-                -translate-x-1/2
                 overflow-hidden rounded-[3px]
                 border border-[#d8c7b5]/70
                 bg-[#fffaf3]
                 shadow-[0_14px_32px_rgba(85,63,47,0.15)]
+                will-change-transform
               "
             >
               <div
@@ -153,7 +193,7 @@ export default function Intro({
                   {intro.cardTitle}
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Envelope body */}
             <img
@@ -170,16 +210,59 @@ export default function Intro({
             />
 
             {/* Envelope flap */}
-            <img
+            <motion.img
               src={envelopeFlap}
               alt=""
               aria-hidden="true"
               draggable="false"
+              initial={false}
+              animate={
+                isOpening
+                  ? {
+                      rotateX: -168,
+                      y: -2,
+                      opacity: [1, 1, 0.12],
+                    }
+                  : {
+                      rotateX: 0,
+                      y: 0,
+                      opacity: 1,
+                    }
+              }
+              transition={{
+                rotateX: {
+                  duration: shouldReduceMotion
+                    ? 0.2
+                    : 0.58,
+                  ease: [0.22, 1, 0.36, 1],
+                },
+
+                y: {
+                  duration: shouldReduceMotion
+                    ? 0.2
+                    : 0.58,
+                  ease: [0.22, 1, 0.36, 1],
+                },
+
+                opacity: {
+                  duration: shouldReduceMotion
+                    ? 0.2
+                    : 0.58,
+                  times: [0, 0.78, 1],
+                  ease: "easeOut",
+                },
+              }}
+              style={{
+                transformOrigin: "50% 0%",
+                transformStyle: "preserve-3d",
+                backfaceVisibility: "hidden",
+              }}
               className="
                 pointer-events-none absolute
                 inset-x-0 top-[11%] z-30
                 block h-auto w-full select-none
                 drop-shadow-[0_2px_2px_rgba(75,55,40,0.06)]
+                will-change-transform
               "
             />
 
@@ -189,8 +272,9 @@ export default function Intro({
               animate={
                 isOpening
                   ? {
-                      scale: 0.72,
+                      scale: 0.55,
                       opacity: 0,
+                      rotate: -10,
                     }
                   : shouldReduceMotion
                     ? {
@@ -205,7 +289,7 @@ export default function Intro({
               transition={
                 isOpening
                   ? {
-                      duration: 0.28,
+                      duration: 0.25,
                       ease: "easeIn",
                     }
                   : {
@@ -261,7 +345,7 @@ export default function Intro({
               : intro.openLabel}
           </motion.p>
 
-          {/* Button covering envelope and label */}
+          {/* Click area */}
           <button
             type="button"
             onClick={handleOpenEnvelope}
