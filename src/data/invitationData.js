@@ -1,5 +1,7 @@
 const invitationData = {
   couple: {
+    firstName: "اسم العريس",
+    secondName: "اسم العروس",
     initials: "M & A",
     sealLetters: ["M", "A"],
   },
@@ -13,7 +15,7 @@ const invitationData = {
 
   hero: {
     eyebrow: "بكل الحب",
-    title: "أهلًا وسهلًا بكم",
+    title: "نحن نتزوج",
     subtitle:
       "يسعدنا أن تشاركونا فرحتنا في يومنا المميز",
   },

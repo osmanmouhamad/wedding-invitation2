@@ -3,7 +3,7 @@
 :root {
   direction: rtl;
   color: #5f5148;
-  background: #f6efe8;
+  background: #f5ede6;
 
   font-family:
     Tahoma,
@@ -24,10 +24,9 @@
 html {
   min-width: 320px;
   min-height: 100%;
-
   direction: rtl;
   color-scheme: light;
-  background: #f6efe8;
+  background: #f5ede6;
 }
 
 body {
@@ -38,13 +37,12 @@ body {
   margin: 0;
   overflow-x: hidden;
 
-  background: #f6efe8;
+  background: #f5ede6;
 }
 
 #root {
   min-height: 100vh;
   min-height: 100svh;
-
   isolation: isolate;
 }
 
@@ -63,7 +61,7 @@ img {
 }
 
 ::selection {
-  color: #56473f;
+  color: #55473e;
   background: #ead6cb;
 }
 
@@ -85,30 +83,30 @@ img {
   background:
     radial-gradient(
       circle at 32% 24%,
-      #fff8d5 0%,
-      #f5d777 18%,
-      #d7a63d 43%,
-      #aa741d 72%,
-      #704609 100%
+      #fff7cf 0%,
+      #f3d371 18%,
+      #d4a038 43%,
+      #a96f18 72%,
+      #714609 100%
     );
 
   box-shadow:
-    0 7px 13px rgba(66, 42, 12, 0.24),
-    0 2px 4px rgba(58, 36, 8, 0.18),
+    0 8px 14px rgba(65, 42, 12, 0.25),
+    0 2px 4px rgba(58, 36, 8, 0.2),
     inset 0 2px 3px rgba(255, 250, 215, 0.9),
-    inset 0 -4px 6px rgba(91, 56, 8, 0.38);
+    inset 0 -4px 6px rgba(91, 56, 8, 0.4);
 }
 
 .gold-seal::before {
   position: absolute;
   inset: 4px;
 
-  border: 2px solid rgba(255, 238, 166, 0.82);
+  border: 2px solid rgba(255, 237, 163, 0.82);
   border-radius: inherit;
 
   box-shadow:
     inset 0 0 0 1px rgba(107, 68, 10, 0.68),
-    0 0 0 1px rgba(255, 246, 204, 0.4);
+    0 0 0 1px rgba(255, 246, 204, 0.38);
 
   content: "";
 }
@@ -147,14 +145,14 @@ img {
   background:
     radial-gradient(
       circle at 36% 28%,
-      #fae8a3 0%,
-      #d9ac46 42%,
-      #a66e18 100%
+      #f9e59c 0%,
+      #d8a942 42%,
+      #a36915 100%
     );
 
   box-shadow:
     inset 0 2px 3px rgba(255, 247, 201, 0.75),
-    inset 0 -3px 5px rgba(87, 52, 7, 0.32);
+    inset 0 -3px 5px rgba(87, 52, 7, 0.34);
 }
 
 .gold-seal__letters {
@@ -178,7 +176,6 @@ img {
 .gold-seal__first,
 .gold-seal__second {
   position: absolute;
-
   line-height: 1;
   user-select: none;
 }
