@@ -1,74 +1,32 @@
-import {
-  useCallback,
-  useState,
-} from "react";
-
-import {
-  AnimatePresence,
-  motion,
-} from "motion/react";
+import { useCallback, useState } from "react";
+import { AnimatePresence } from "motion/react";
 
 import Hero from "./sections/Hero";
 import Intro from "./sections/Intro";
 
 export default function App() {
-  const [showIntro, setShowIntro] =
-    useState(true);
+  const [showIntro, setShowIntro] = useState(true);
+  const [showHero, setShowHero] = useState(false);
 
-  const [showHero, setShowHero] =
-    useState(false);
+  const handleRevealHero = useCallback(() => {
+    setShowHero(true);
+  }, []);
 
-  const handleRevealHero =
-    useCallback(() => {
-      setShowHero(true);
-    }, []);
-
-  const handleIntroComplete =
-    useCallback(() => {
-      setShowIntro(false);
-    }, []);
+  const handleIntroComplete = useCallback(() => {
+    setShowIntro(false);
+  }, []);
 
   return (
-    <main
-      className="
-        relative min-h-[100svh]
-        overflow-hidden bg-[#f5ede6]
-      "
-    >
-      {/* Hero موجود خلف الـIntro */}
-      <motion.div
-        aria-hidden={!showHero}
-        initial={false}
-        animate={{
-          opacity: showHero ? 1 : 0,
-          scale: showHero ? 1 : 1.025,
-        }}
-        transition={{
-          duration: 1.9,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className={`
-          min-h-[100svh]
-          ${
-            showHero
-              ? ""
-              : "pointer-events-none"
-          }
-        `}
-      >
-        <Hero />
-      </motion.div>
+    <main className="relative min-h-[100svh] overflow-x-hidden bg-[#f5ede6]">
+      {/* Mount the Hero only when its animation should really begin. */}
+      {showHero && <Hero />}
 
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {showIntro && (
           <Intro
             key="intro"
-            onRevealHero={
-              handleRevealHero
-            }
-            onComplete={
-              handleIntroComplete
-            }
+            onRevealHero={handleRevealHero}
+            onComplete={handleIntroComplete}
           />
         )}
       </AnimatePresence>

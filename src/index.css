@@ -1,37 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Tajawal:wght@300;400;500;700&display=swap");
-
 @import "tailwindcss";
 
 @theme {
-  --font-sans:
-    "Tajawal",
-    Arial,
-    sans-serif;
-
-  --font-serif:
-    "Aref Ruqaa",
-    serif;
-
-  --font-latin:
-    "Cormorant Garamond",
-    Georgia,
-    serif;
+  --font-sans: "Tajawal", Arial, sans-serif;
+  --font-serif: "Aref Ruqaa", serif;
+  --font-latin: "Cormorant Garamond", Georgia, serif;
 }
 
 :root {
   direction: rtl;
-
   color: #5f5148;
   background: #f5ede6;
-
-  font-family:
-    "Tajawal",
-    Arial,
-    sans-serif;
-
+  font-family: "Tajawal", Arial, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -43,10 +24,8 @@
 html {
   min-width: 320px;
   min-height: 100%;
-
   direction: rtl;
   color-scheme: light;
-
   background: #f5ede6;
 }
 
@@ -54,24 +33,16 @@ body {
   min-width: 320px;
   min-height: 100vh;
   min-height: 100svh;
-
   margin: 0;
   overflow-x: hidden;
-
   background: #f5ede6;
-
-  font-family:
-    "Tajawal",
-    Arial,
-    sans-serif;
-
+  font-family: "Tajawal", Arial, sans-serif;
   font-weight: 400;
 }
 
 #root {
   min-height: 100vh;
   min-height: 100svh;
-
   isolation: isolate;
 }
 
@@ -89,29 +60,16 @@ img {
   max-width: 100%;
 }
 
-/*
-  العناوين العربية التي تستعمل
-  className="font-serif"
-*/
 .font-serif {
-  font-family:
-    "Aref Ruqaa",
-    serif;
-
+  font-family: "Aref Ruqaa", serif;
   letter-spacing: 0;
 }
 
-/*
-  الأحرف الإنجليزية مثل A & M
-  تبقى LTR وتأخذ الخط الكلاسيكي
-*/
 .font-latin,
 bdi[dir="ltr"] {
-  font-family:
-    "Cormorant Garamond",
-    Georgia,
-    serif;
-
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: "Cormorant Garamond", Georgia, serif;
   font-weight: 600;
 }
 
@@ -120,30 +78,55 @@ bdi[dir="ltr"] {
   background: #ead6cb;
 }
 
-/* Gold seal */
+/* Intro layout: sized for short mobile screens as well as desktop. */
+.intro-layout {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  min-height: 100svh;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.8rem, 2.1svh, 1.35rem);
+  padding-inline: 1rem;
+  padding-top: max(1rem, env(safe-area-inset-top));
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
 
+.intro-envelope-frame {
+  width: min(88vw, 390px, 64svh);
+  flex: none;
+}
+
+@media (max-height: 700px) {
+  .intro-layout {
+    gap: 0.55rem;
+    padding-top: max(0.7rem, env(safe-area-inset-top));
+    padding-bottom: max(0.7rem, env(safe-area-inset-bottom));
+  }
+
+  .intro-envelope-frame {
+    width: min(84vw, 350px, 58svh);
+  }
+}
+
+@media (min-width: 640px) and (min-height: 701px) {
+  .intro-envelope-frame {
+    width: min(82vw, 410px, 62svh);
+  }
+}
+
+/* Gold wax seal */
 .gold-seal {
   position: relative;
-
   display: grid;
-
-  width: clamp(
-    64px,
-    18vw,
-    72px
-  );
-
+  width: clamp(58px, 16vw, 70px);
   aspect-ratio: 1;
-
   place-items: center;
   overflow: hidden;
-
-  border:
-    1px solid
-    rgba(102, 65, 11, 0.82);
-
+  border: 1px solid rgba(102, 65, 11, 0.82);
   border-radius: 9999px;
-
   background:
     radial-gradient(
       circle at 32% 24%,
@@ -153,54 +136,34 @@ bdi[dir="ltr"] {
       #a96f18 72%,
       #714609 100%
     );
-
   box-shadow:
-    0 8px 14px
-      rgba(65, 42, 12, 0.25),
-    0 2px 4px
-      rgba(58, 36, 8, 0.2),
-    inset 0 2px 3px
-      rgba(255, 250, 215, 0.9),
-    inset 0 -4px 6px
-      rgba(91, 56, 8, 0.4);
+    0 8px 14px rgba(65, 42, 12, 0.25),
+    0 2px 4px rgba(58, 36, 8, 0.2),
+    inset 0 2px 3px rgba(255, 250, 215, 0.9),
+    inset 0 -4px 6px rgba(91, 56, 8, 0.4);
 }
 
 .gold-seal::before {
   position: absolute;
   inset: 4px;
-
-  border:
-    2px solid
-    rgba(255, 237, 163, 0.82);
-
+  border: 2px solid rgba(255, 237, 163, 0.82);
   border-radius: inherit;
-
   box-shadow:
-    inset 0 0 0 1px
-      rgba(107, 68, 10, 0.68),
-    0 0 0 1px
-      rgba(255, 246, 204, 0.38);
-
+    inset 0 0 0 1px rgba(107, 68, 10, 0.68),
+    0 0 0 1px rgba(255, 246, 204, 0.38);
   content: "";
 }
 
 .gold-seal::after {
   position: absolute;
-
   top: 8px;
   left: 11px;
   z-index: 3;
-
   width: 24px;
   height: 9px;
-
   border-radius: 9999px;
-
-  background:
-    rgba(255, 255, 231, 0.4);
-
+  background: rgba(255, 255, 231, 0.4);
   content: "";
-
   filter: blur(3px);
   transform: rotate(-24deg);
 }
@@ -208,20 +171,12 @@ bdi[dir="ltr"] {
 .gold-seal__center {
   position: relative;
   z-index: 2;
-
   display: grid;
-
-  width: 74%;
+  width: 76%;
   aspect-ratio: 1;
-
   place-items: center;
-
-  border:
-    1px solid
-    rgba(106, 66, 8, 0.72);
-
+  border: 1px solid rgba(106, 66, 8, 0.72);
   border-radius: 9999px;
-
   background:
     radial-gradient(
       circle at 36% 28%,
@@ -229,81 +184,39 @@ bdi[dir="ltr"] {
       #d8a942 42%,
       #a36915 100%
     );
-
   box-shadow:
-    inset 0 2px 3px
-      rgba(255, 247, 201, 0.75),
-    inset 0 -3px 5px
-      rgba(87, 52, 7, 0.34);
+    inset 0 2px 3px rgba(255, 247, 201, 0.75),
+    inset 0 -3px 5px rgba(87, 52, 7, 0.34);
 }
 
-.gold-seal__letters {
-  position: relative;
-
-  width: 92%;
-  height: 84%;
-
+.gold-seal__monogram {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 1px;
   color: #704708;
-
-  font-family:
-    "Cormorant Garamond",
-    Georgia,
-    serif;
-
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(23px, 6.3vw, 30px);
+  font-style: italic;
   font-weight: 600;
-
+  line-height: 1;
   text-shadow:
-    0 1px 0
-      rgba(255, 244, 178, 0.95),
-    0 2px 1px
-      rgba(65, 38, 3, 0.38);
-}
-
-.gold-seal__first,
-.gold-seal__second {
-  position: absolute;
-
-  line-height: 0.9;
+    0 1px 0 rgba(255, 244, 178, 0.95),
+    0 2px 1px rgba(65, 38, 3, 0.38);
   user-select: none;
 }
 
-.gold-seal__first {
-  top: -1px;
-  left: 0;
-
-  font-size:
-    clamp(
-      34px,
-      9vw,
-      40px
-    );
-
-  font-style: italic;
-  font-weight: 600;
+.gold-seal__ampersand {
+  font-size: 0.55em;
+  font-style: normal;
+  opacity: 0.85;
+  transform: translateY(-1px);
 }
 
-.gold-seal__second {
-  right: 0;
-  bottom: -2px;
-
-  font-size:
-    clamp(
-      31px,
-      8vw,
-      37px
-    );
-
-  font-style: italic;
-  font-weight: 600;
-}
-
-@media (
-  prefers-reduced-motion: reduce
-) {
+@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    scroll-behavior:
-      auto !important;
+    scroll-behavior: auto !important;
   }
 }
