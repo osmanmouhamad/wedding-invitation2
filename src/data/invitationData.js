@@ -3,23 +3,14 @@ const invitationData = {
     firstName: "اسم العريس",
     secondName: "اسم العروس",
 
-    groom: {
-      name: "اسم العريس",
-      initial: "A",
-    },
-
-    bride: {
-      name: "اسم العروس",
-      initial: "M",
-    },
-
+    // A للعريس أولًا، ثم M للعروس
     initials: "A & M",
     monogram: "A & M",
     sealLetters: ["A", "M"],
   },
 
   intro: {
-    kicker: "دعوة زفاف",
+    kicker: "بكل الحب",
 
     headingLines: [
       "لكل فرحٍ بداية…",
@@ -34,21 +25,23 @@ const invitationData = {
       "ببداية عمرٍ جميل",
     ],
 
-    openLabel: "افتحوا الدعوة لتبدأ الحكاية",
-    openHint: "اضغطوا على الختم",
+    openLabel: "افتحوا الختم",
+    openHint: "لتبدأ حكاية دعوتنا",
+    openingLabel: "جارٍ فتح الدعوة",
   },
 
   hero: {
     eyebrow: "بكل الحب",
-    title: "جمعنا الحب…",
+    title: "نحن نتزوج",
 
     messageLines: [
+      "جمعنا الحب…",
       "ويسعدنا أن يجمعنا بكم",
-      "في يومٍ نبدأ فيه أجمل فصول العمر",
+      "في أجمل أيام العمر",
     ],
 
     subtitle:
-      "ويسعدنا أن يجمعنا بكم في يومٍ نبدأ فيه أجمل فصول العمر",
+      "جمعنا الحب، ويسعدنا أن يجمعنا بكم في أجمل أيام العمر.",
   },
 };
 

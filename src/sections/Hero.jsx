@@ -6,12 +6,7 @@ import {
 import introBackground from "../assets/images/intro-bg.webp";
 import invitationData from "../data/invitationData";
 
-const smoothEase = [
-  0.22,
-  1,
-  0.36,
-  1,
-];
+const smoothEase = [0.22, 1, 0.36, 1];
 
 export default function Hero() {
   const shouldReduceMotion =
@@ -30,6 +25,7 @@ export default function Hero() {
         overflow-hidden px-5 py-10
       "
     >
+      {/* Background */}
       <motion.img
         src={introBackground}
         alt=""
@@ -43,11 +39,9 @@ export default function Hero() {
           scale: 1,
         }}
         transition={{
-          duration:
-            shouldReduceMotion
-              ? 0.2
-              : 2.4,
-
+          duration: shouldReduceMotion
+            ? 0.2
+            : 2.4,
           ease: smoothEase,
         }}
         className="
@@ -59,16 +53,18 @@ export default function Hero() {
         "
       />
 
+      {/* Overlay */}
       <div
         aria-hidden="true"
         className="
           pointer-events-none
           absolute inset-0
           -z-10
-          bg-[linear-gradient(180deg,rgba(255,252,248,0.28),rgba(244,233,223,0.86))]
+          bg-[linear-gradient(180deg,rgba(255,252,248,0.26),rgba(244,233,223,0.86))]
         "
       />
 
+      {/* Main card */}
       <motion.div
         initial={
           shouldReduceMotion
@@ -87,16 +83,12 @@ export default function Hero() {
           scale: 1,
         }}
         transition={{
-          duration:
-            shouldReduceMotion
-              ? 0.2
-              : 1.2,
-
-          delay:
-            shouldReduceMotion
-              ? 0
-              : 0.15,
-
+          duration: shouldReduceMotion
+            ? 0.2
+            : 1.2,
+          delay: shouldReduceMotion
+            ? 0
+            : 0.15,
           ease: smoothEase,
         }}
         className="
@@ -110,6 +102,7 @@ export default function Hero() {
           backdrop-blur-md
         "
       >
+        {/* Small heading */}
         <motion.p
           initial={{
             opacity: 0,
@@ -125,14 +118,15 @@ export default function Hero() {
             ease: smoothEase,
           }}
           className="
-            mb-5 text-[11px]
-            tracking-[0.25em]
+            mb-5 font-serif
+            text-[18px]
             text-[#967b65]
           "
         >
           {hero.eyebrow}
         </motion.p>
 
+        {/* A & M */}
         <motion.div
           initial={{
             opacity: 0,
@@ -152,8 +146,7 @@ export default function Hero() {
             grid size-24
             place-items-center
             rounded-full
-            border
-            border-[#c8a764]/45
+            border border-[#c8a764]/45
             bg-[#fffaf2]/85
             shadow-[0_12px_30px_rgba(94,67,45,0.1)]
           "
@@ -161,15 +154,17 @@ export default function Hero() {
           <bdi
             dir="ltr"
             className="
-              font-serif text-3xl
+              font-latin
+              text-3xl
               tracking-[0.04em]
               text-[#79634e]
             "
           >
-            {couple.monogram}
+            {couple.initials}
           </bdi>
         </motion.div>
 
+        {/* Main title */}
         <motion.h1
           initial={{
             opacity: 0,
@@ -186,7 +181,7 @@ export default function Hero() {
           }}
           className="
             font-serif
-            text-[clamp(1.9rem,8vw,2.8rem)]
+            text-[clamp(2rem,8vw,2.8rem)]
             leading-[1.45]
             text-[#695444]
           "
@@ -194,6 +189,7 @@ export default function Hero() {
           {hero.title}
         </motion.h1>
 
+        {/* Divider */}
         <motion.div
           aria-hidden="true"
           initial={{
@@ -219,7 +215,8 @@ export default function Hero() {
           "
         />
 
-        <motion.div
+        {/* Subtitle */}
+        <motion.p
           initial={{
             opacity: 0,
             y: 10,
@@ -240,21 +237,8 @@ export default function Hero() {
             text-[#74655a]
           "
         >
-          {hero.messageLines.map(
-            (line, index) => (
-              <p
-                key={`${line}-${index}`}
-                className={
-                  index === 0
-                    ? ""
-                    : "mt-1"
-                }
-              >
-                {line}
-              </p>
-            ),
-          )}
-        </motion.div>
+          {hero.subtitle}
+        </motion.p>
       </motion.div>
     </section>
   );
