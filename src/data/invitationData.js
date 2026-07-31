@@ -2,8 +2,8 @@ const invitationData = {
   couple: {
     firstName: "اسم العريس",
     secondName: "اسم العروس",
-    initials: "M & A",
-    sealLetters: ["M", "A"],
+    initials: "A & M",
+    sealLetters: ["A", "M"],
   },
 
   intro: {
