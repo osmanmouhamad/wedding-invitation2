@@ -7,10 +7,14 @@ const invitationData = {
   },
 
   intro: {
-    eyebrow: "WEDDING INVITATION",
+    kicker: "دعوة زفاف",
+    heading: "بوجودكم تكتمل فرحتنا",
+
+    cardEyebrow: "WEDDING INVITATION",
     cardTitle: "بطاقة الدعوة",
+
     openLabel: "اضغط لفتح الدعوة",
-    openingLabel: "جارٍ فتح الدعوة",
+    openingLabel: "لحظات وتُفتح دعوتكم",
   },
 
   hero: {
