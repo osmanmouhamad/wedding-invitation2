@@ -1,37 +1,20 @@
-import {
-  useCallback,
-  useState,
-} from "react";
+import { useCallback, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
-import { AnimatePresence } from "motion/react";
-
-import PetalTransition from "./components/PetalTransition";
 import Hero from "./sections/Hero";
 import Intro from "./sections/Intro";
 
 export default function App() {
-  const [screen, setScreen] =
-    useState("intro");
+  const [showIntro, setShowIntro] = useState(true);
+  const [showHero, setShowHero] = useState(false);
 
-  const [
-    isTransitioning,
-    setIsTransitioning,
-  ] = useState(false);
+  const handleRevealHero = useCallback(() => {
+    setShowHero(true);
+  }, []);
 
-  const handleTransitionStart =
-    useCallback(() => {
-      setIsTransitioning(true);
-    }, []);
-
-  const handleScreenCovered =
-    useCallback(() => {
-      setScreen("hero");
-    }, []);
-
-  const handleTransitionComplete =
-    useCallback(() => {
-      setIsTransitioning(false);
-    }, []);
+  const handleIntroComplete = useCallback(() => {
+    setShowIntro(false);
+  }, []);
 
   return (
     <main
@@ -39,26 +22,30 @@ export default function App() {
         relative min-h-[100svh]
         overflow-hidden bg-[#f5ede6]
       "
-      aria-busy={isTransitioning}
     >
-      {screen === "intro" ? (
-        <Intro
-          onTransitionStart={
-            handleTransitionStart
-          }
-        />
-      ) : (
+      {/* Hero موجود خلف الـIntro */}
+      <motion.div
+        aria-hidden={!showHero}
+        className={showHero ? "" : "pointer-events-none"}
+        initial={false}
+        animate={{
+          opacity: showHero ? 1 : 0,
+          scale: showHero ? 1 : 1.02,
+        }}
+        transition={{
+          duration: 1.8,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+      >
         <Hero />
-      )}
+      </motion.div>
 
       <AnimatePresence>
-        {isTransitioning && (
-          <PetalTransition
-            key="petal-transition"
-            onCover={handleScreenCovered}
-            onComplete={
-              handleTransitionComplete
-            }
+        {showIntro && (
+          <Intro
+            key="intro"
+            onRevealHero={handleRevealHero}
+            onComplete={handleIntroComplete}
           />
         )}
       </AnimatePresence>

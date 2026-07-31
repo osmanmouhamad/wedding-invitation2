@@ -4,9 +4,8 @@ import {
 } from "motion/react";
 
 import invitationData from "../data/invitationData";
-import OpeningPetals from "./OpeningPetals";
 
-const smoothEase = [0.22, 1, 0.36, 1];
+const slowEase = [0.22, 1, 0.36, 1];
 
 export default function Envelope({
   isOpen = false,
@@ -15,14 +14,14 @@ export default function Envelope({
   const shouldReduceMotion =
     useReducedMotion();
 
-  const { couple, intro } = invitationData;
+  const { couple, intro } =
+    invitationData;
 
   const [firstLetter, secondLetter] =
     couple.sealLetters;
 
-  const duration = shouldReduceMotion
-    ? 0.18
-    : 0.72;
+  const openingDuration =
+    shouldReduceMotion ? 0.2 : 4.2;
 
   const handleOpen = () => {
     if (isOpen) return;
@@ -32,23 +31,37 @@ export default function Envelope({
 
   return (
     <motion.div
-      animate={
-        shouldReduceMotion || isOpen
-          ? {
-              y: 0,
-            }
-          : {
-              y: [0, -3, 0],
-            }
-      }
+      initial={false}
+      animate={{
+        opacity: isOpen
+          ? [1, 1, 0.88, 0]
+          : 1,
+
+        scale: isOpen
+          ? [
+              1,
+              1.01,
+              1.035,
+              1.055,
+            ]
+          : 1,
+
+        y: isOpen
+          ? [0, -2, -5, -10]
+          : 0,
+      }}
       transition={{
-        duration: 4.2,
-        repeat: isOpen ? 0 : Infinity,
-        ease: "easeInOut",
+        duration: shouldReduceMotion
+          ? 0.25
+          : 5.2,
+
+        times: [0, 0.42, 0.74, 1],
+        ease: slowEase,
       }}
       className="
         relative w-full
         max-w-[410px]
+        will-change-transform
       "
     >
       <div
@@ -61,19 +74,30 @@ export default function Envelope({
         <motion.div
           aria-hidden="true"
           animate={{
-            opacity: isOpen ? 0.11 : 0.23,
-            scaleX: isOpen ? 0.78 : 1,
-            y: isOpen ? 13 : 0,
+            opacity: isOpen
+              ? [0.22, 0.12, 0]
+              : 0.22,
+
+            scaleX: isOpen
+              ? [1, 0.9, 0.76]
+              : 1,
+
+            y: isOpen
+              ? [0, 6, 12]
+              : 0,
           }}
           transition={{
-            duration: 0.9,
-            ease: smoothEase,
+            duration: openingDuration,
+            times: [0, 0.55, 1],
+            ease: slowEase,
           }}
           className="
-            absolute bottom-[1%] left-1/2
+            absolute bottom-[1%]
+            left-1/2
             h-[9%] w-[82%]
             -translate-x-1/2
-            rounded-full bg-[#5d4332]
+            rounded-full
+            bg-[#5d4332]
             blur-xl
           "
         />
@@ -82,45 +106,31 @@ export default function Envelope({
         <motion.div
           aria-hidden="true"
           animate={{
-            scale: isOpen ? 1.015 : 1,
-            opacity: isOpen ? 0.86 : 1,
+            opacity: isOpen
+              ? [1, 0.8, 0.12]
+              : 1,
           }}
           transition={{
-            duration,
-            ease: smoothEase,
+            duration: openingDuration,
+            delay: isOpen ? 0.2 : 0,
+            times: [0, 0.58, 1],
+            ease: "easeOut",
           }}
           className="
             absolute inset-x-[3%]
             bottom-[7%] top-[6%]
-            overflow-hidden rounded-[12px]
+            overflow-hidden
+            rounded-[12px]
             border border-[#cbb39d]/80
             bg-[linear-gradient(145deg,#f3e7d9_0%,#dfcbb8_48%,#d5bba4_100%)]
             shadow-[0_18px_30px_rgba(75,52,37,0.17)]
           "
         >
-          {/* Paper texture */}
           <div
             aria-hidden="true"
             className="
               absolute inset-0
               bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.7),transparent_34%),linear-gradient(135deg,transparent_35%,rgba(112,77,52,0.055)_100%)]
-            "
-          />
-
-          {/* Inner depth */}
-          <motion.div
-            aria-hidden="true"
-            animate={{
-              opacity: isOpen ? 1 : 0,
-            }}
-            transition={{
-              duration: 0.45,
-              delay: isOpen ? 0.35 : 0,
-            }}
-            className="
-              absolute inset-x-[8%] top-[8%]
-              h-[26%] rounded-[50%]
-              bg-[#70503b]/20 blur-md
             "
           />
         </motion.div>
@@ -129,30 +139,43 @@ export default function Envelope({
         <motion.article
           initial={false}
           animate={{
-            opacity: isOpen ? 1 : 0,
-            y: isOpen ? "-17%" : "8%",
-            scale: isOpen ? 1.18 : 0.94,
-          }}
-          transition={{
-            duration: shouldReduceMotion
-              ? 0.2
-              : 0.82,
-
-            delay: isOpen
-              ? shouldReduceMotion
-                ? 0
-                : 0.5
+            opacity: isOpen
+              ? [0, 1, 1, 0.95]
               : 0,
 
-            ease: smoothEase,
+            y: isOpen
+              ? [
+                  "8%",
+                  "-2%",
+                  "-8%",
+                  "-11%",
+                ]
+              : "8%",
+
+            scale: isOpen
+              ? [
+                  0.96,
+                  1.01,
+                  1.06,
+                  1.09,
+                ]
+              : 0.96,
+          }}
+          transition={{
+            duration: openingDuration,
+            delay: isOpen ? 0.15 : 0,
+            times: [0, 0.27, 0.72, 1],
+            ease: slowEase,
           }}
           style={{
             x: "-50%",
           }}
           className="
-            absolute left-1/2 top-[20%]
-            z-10 h-[58%] w-[68%]
-            overflow-hidden rounded-[6px]
+            absolute left-1/2
+            top-[20%] z-10
+            h-[58%] w-[68%]
+            overflow-hidden
+            rounded-[6px]
             border border-[#d9c6b3]
             bg-[#fffaf2]
             shadow-[0_18px_38px_rgba(73,50,35,0.2)]
@@ -162,7 +185,8 @@ export default function Envelope({
           <div
             aria-hidden="true"
             className="
-              pointer-events-none absolute inset-0
+              pointer-events-none
+              absolute inset-0
               bg-[radial-gradient(circle_at_24%_18%,rgba(255,255,255,0.96),transparent_38%),linear-gradient(145deg,rgba(199,166,132,0.09),transparent_52%)]
             "
           />
@@ -170,8 +194,9 @@ export default function Envelope({
           <div
             aria-hidden="true"
             className="
-              pointer-events-none absolute
-              inset-[7px] rounded-[3px]
+              pointer-events-none
+              absolute inset-[7px]
+              rounded-[3px]
               border border-[#c9ab82]/30
             "
           />
@@ -233,18 +258,28 @@ export default function Envelope({
           aria-hidden="true"
           initial={false}
           animate={{
-            x: isOpen ? "-61%" : "0%",
-            rotate: isOpen ? -6 : 0,
-            opacity: isOpen ? 0.9 : 1,
+            x: isOpen
+              ? [
+                  "0%",
+                  "-7%",
+                  "-15%",
+                  "-20%",
+                ]
+              : "0%",
+
+            rotate: isOpen
+              ? [0, -1, -2.5, -3]
+              : 0,
+
+            opacity: isOpen
+              ? [1, 0.88, 0.42, 0.05]
+              : 1,
           }}
           transition={{
-            duration,
-            delay: isOpen
-              ? shouldReduceMotion
-                ? 0
-                : 0.24
-              : 0,
-            ease: smoothEase,
+            duration: openingDuration,
+            delay: isOpen ? 0.28 : 0,
+            times: [0, 0.35, 0.72, 1],
+            ease: slowEase,
           }}
           className="
             absolute bottom-[7%]
@@ -253,35 +288,37 @@ export default function Envelope({
             origin-left
             [clip-path:polygon(0_0,100%_50%,0_100%)]
             bg-[linear-gradient(115deg,#f3e7da_0%,#d5bca6_100%)]
-            drop-shadow-[3px_2px_3px_rgba(75,53,39,0.08)]
             will-change-transform
           "
-        >
-          <div
-            className="
-              absolute inset-0
-              bg-[linear-gradient(90deg,rgba(255,255,255,0.2),transparent)]
-            "
-          />
-        </motion.div>
+        />
 
         {/* Right panel */}
         <motion.div
           aria-hidden="true"
           initial={false}
           animate={{
-            x: isOpen ? "61%" : "0%",
-            rotate: isOpen ? 6 : 0,
-            opacity: isOpen ? 0.9 : 1,
+            x: isOpen
+              ? [
+                  "0%",
+                  "7%",
+                  "15%",
+                  "20%",
+                ]
+              : "0%",
+
+            rotate: isOpen
+              ? [0, 1, 2.5, 3]
+              : 0,
+
+            opacity: isOpen
+              ? [1, 0.88, 0.42, 0.05]
+              : 1,
           }}
           transition={{
-            duration,
-            delay: isOpen
-              ? shouldReduceMotion
-                ? 0
-                : 0.24
-              : 0,
-            ease: smoothEase,
+            duration: openingDuration,
+            delay: isOpen ? 0.28 : 0,
+            times: [0, 0.35, 0.72, 1],
+            ease: slowEase,
           }}
           className="
             absolute bottom-[7%]
@@ -290,35 +327,33 @@ export default function Envelope({
             origin-right
             [clip-path:polygon(100%_0,0_50%,100%_100%)]
             bg-[linear-gradient(245deg,#f3e7da_0%,#d5bca6_100%)]
-            drop-shadow-[-3px_2px_3px_rgba(75,53,39,0.08)]
             will-change-transform
           "
-        >
-          <div
-            className="
-              absolute inset-0
-              bg-[linear-gradient(270deg,rgba(255,255,255,0.2),transparent)]
-            "
-          />
-        </motion.div>
+        />
 
         {/* Bottom panel */}
         <motion.div
           aria-hidden="true"
           initial={false}
           animate={{
-            y: isOpen ? "66%" : "0%",
-            scale: isOpen ? 0.95 : 1,
-            opacity: isOpen ? 0.92 : 1,
+            y: isOpen
+              ? [
+                  "0%",
+                  "8%",
+                  "18%",
+                  "24%",
+                ]
+              : "0%",
+
+            opacity: isOpen
+              ? [1, 0.9, 0.42, 0.05]
+              : 1,
           }}
           transition={{
-            duration,
-            delay: isOpen
-              ? shouldReduceMotion
-                ? 0
-                : 0.38
-              : 0,
-            ease: smoothEase,
+            duration: openingDuration,
+            delay: isOpen ? 0.38 : 0,
+            times: [0, 0.36, 0.74, 1],
+            ease: slowEase,
           }}
           className="
             absolute bottom-[7%]
@@ -327,37 +362,37 @@ export default function Envelope({
             origin-bottom
             [clip-path:polygon(0_100%,50%_0,100%_100%)]
             bg-[linear-gradient(180deg,#f1e2d2_0%,#d1b59e_100%)]
-            drop-shadow-[0_-2px_3px_rgba(71,50,36,0.08)]
             will-change-transform
           "
-        >
-          <div
-            className="
-              absolute inset-0
-              bg-[radial-gradient(circle_at_50%_100%,rgba(255,255,255,0.28),transparent_55%)]
-            "
-          />
-        </motion.div>
+        />
 
         {/* Top panel */}
         <motion.div
           aria-hidden="true"
           initial={false}
           animate={{
-            y: isOpen ? "-72%" : "0%",
-            scaleX: isOpen ? 0.92 : 1,
-            scaleY: isOpen ? 0.9 : 1,
-            rotate: isOpen ? -1.5 : 0,
-            opacity: isOpen ? 0.92 : 1,
+            y: isOpen
+              ? [
+                  "0%",
+                  "-8%",
+                  "-18%",
+                  "-25%",
+                ]
+              : "0%",
+
+            scaleY: isOpen
+              ? [1, 0.98, 0.94, 0.9]
+              : 1,
+
+            opacity: isOpen
+              ? [1, 0.9, 0.4, 0.05]
+              : 1,
           }}
           transition={{
-            duration,
-            delay: isOpen
-              ? shouldReduceMotion
-                ? 0
-                : 0.08
-              : 0,
-            ease: smoothEase,
+            duration: openingDuration,
+            delay: isOpen ? 0.1 : 0,
+            times: [0, 0.34, 0.72, 1],
+            ease: slowEase,
           }}
           className="
             absolute left-[3%]
@@ -366,29 +401,17 @@ export default function Envelope({
             origin-top
             [clip-path:polygon(0_0,100%_0,50%_100%)]
             bg-[linear-gradient(180deg,#f2e5d6_0%,#d4bba5_100%)]
-            drop-shadow-[0_4px_4px_rgba(70,49,35,0.12)]
             will-change-transform
           "
         >
           <div
+            aria-hidden="true"
             className="
               absolute inset-0
               bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.5),transparent_48%)]
             "
           />
-
-          <div
-            className="
-              absolute left-1/2 top-[8%]
-              h-px w-[64%]
-              -translate-x-1/2
-              bg-white/35
-            "
-          />
         </motion.div>
-
-        {/* First petals from the invitation */}
-        <OpeningPetals active={isOpen} />
 
         {/* Gold seal */}
         <motion.div
@@ -398,9 +421,9 @@ export default function Envelope({
             isOpen
               ? {
                   opacity: 0,
-                  scale: 0.38,
-                  rotate: -18,
-                  y: 9,
+                  scale: 0.5,
+                  rotate: -14,
+                  y: 7,
                 }
               : shouldReduceMotion
                 ? {
@@ -409,13 +432,17 @@ export default function Envelope({
                   }
                 : {
                     opacity: 1,
-                    scale: [1, 1.045, 1],
+                    scale: [
+                      1,
+                      1.045,
+                      1,
+                    ],
                   }
           }
           transition={
             isOpen
               ? {
-                  duration: 0.25,
+                  duration: 0.5,
                   ease: "easeIn",
                 }
               : {
@@ -458,7 +485,8 @@ export default function Envelope({
           aria-label={intro.openLabel}
           className="
             absolute inset-0 z-50
-            cursor-pointer rounded-[18px]
+            cursor-pointer
+            rounded-[18px]
             bg-transparent
             focus-visible:outline-none
             focus-visible:ring-2

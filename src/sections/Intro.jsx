@@ -14,70 +14,121 @@ import Envelope from "../components/Envelope";
 import invitationData from "../data/invitationData";
 
 export default function Intro({
-  onTransitionStart,
+  onRevealHero,
+  onComplete,
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpening, setIsOpening] =
+    useState(false);
+
+  const [isFading, setIsFading] =
+    useState(false);
 
   const shouldReduceMotion =
     useReducedMotion();
 
-  const hasStartedTransitionRef =
-    useRef(false);
+  const hasStartedRef = useRef(false);
 
   const { intro } = invitationData;
 
   const handleOpen = () => {
-    if (isOpen) return;
+    if (isOpening) return;
 
-    setIsOpen(true);
+    setIsOpening(true);
   };
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (
+      !isOpening ||
+      hasStartedRef.current
+    ) {
+      return;
+    }
 
-    const delay = shouldReduceMotion
-      ? 380
-      : 1750;
+    hasStartedRef.current = true;
 
-    const timer = window.setTimeout(() => {
-      if (hasStartedTransitionRef.current) {
-        return;
-      }
+    if (shouldReduceMotion) {
+      onRevealHero?.();
 
-      hasStartedTransitionRef.current = true;
-      onTransitionStart?.();
-    }, delay);
+      const completeTimer =
+        window.setTimeout(() => {
+          onComplete?.();
+        }, 400);
+
+      return () => {
+        window.clearTimeout(
+          completeTimer,
+        );
+      };
+    }
+
+    /*
+      0ms:
+      يبدأ فتح الظرف ببطء.
+
+      2900ms:
+      يبدأ ظهور الـHero من الخلف.
+
+      3600ms:
+      تبدأ خلفية الـIntro بالاختفاء.
+
+      5500ms:
+      ينتهي الانتقال ويُحذف الـIntro.
+    */
+
+    const revealTimer =
+      window.setTimeout(() => {
+        onRevealHero?.();
+      }, 2900);
+
+    const fadeTimer =
+      window.setTimeout(() => {
+        setIsFading(true);
+      }, 3600);
+
+    const completeTimer =
+      window.setTimeout(() => {
+        onComplete?.();
+      }, 5500);
 
     return () => {
-      window.clearTimeout(timer);
+      window.clearTimeout(revealTimer);
+      window.clearTimeout(fadeTimer);
+      window.clearTimeout(
+        completeTimer,
+      );
     };
   }, [
-    isOpen,
-    onTransitionStart,
+    isOpening,
     shouldReduceMotion,
+    onRevealHero,
+    onComplete,
   ]);
 
   return (
     <motion.section
       dir="rtl"
-      initial={
-        shouldReduceMotion
-          ? false
-          : {
-              opacity: 0,
-            }
-      }
-      animate={{
+      initial={{
         opacity: 1,
       }}
+      animate={{
+        opacity: isFading ? 0 : 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
       transition={{
-        duration: 0.55,
-        ease: "easeOut",
+        duration: shouldReduceMotion
+          ? 0.2
+          : 1.9,
+
+        ease: [0.22, 1, 0.36, 1],
       }}
       className="
-        relative flex min-h-[100svh]
-        w-full items-center justify-center
-        overflow-hidden bg-[#f2e7db]
+        absolute inset-0 z-20
+        flex min-h-[100svh] w-full
+        items-center justify-center
+        overflow-hidden
+        bg-[#f2e7db]
       "
     >
       {/* Background */}
@@ -89,40 +140,57 @@ export default function Intro({
         decoding="async"
         fetchPriority="high"
         className="
-          pointer-events-none absolute inset-0
+          pointer-events-none
+          absolute inset-0
           h-full w-full select-none
           object-cover object-center
         "
       />
 
-      {/* Soft background overlay */}
-      <div
+      {/* Soft overlay */}
+      <motion.div
         aria-hidden="true"
+        animate={{
+          opacity: isOpening
+            ? 0.15
+            : 1,
+        }}
+        transition={{
+          duration: 4.3,
+          ease: "easeOut",
+        }}
         className="
-          pointer-events-none absolute inset-0
+          pointer-events-none
+          absolute inset-0
           bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(242,230,219,0.12))]
         "
       />
 
       <div
         className="
-          relative z-10 flex
-          min-h-[100svh] w-full
-          max-w-[470px]
+          relative z-10
+          flex min-h-[100svh]
+          w-full max-w-[470px]
           flex-col items-center
           justify-center px-5
           pb-[max(2rem,env(safe-area-inset-bottom))]
           pt-[max(1.5rem,env(safe-area-inset-top))]
         "
       >
-        {/* Sentence above the envelope */}
+        {/* Text above envelope */}
         <motion.header
           animate={{
-            opacity: isOpen ? 0.35 : 1,
-            y: isOpen ? -10 : 0,
+            opacity: isOpening
+              ? [1, 0.75, 0]
+              : 1,
+
+            y: isOpening
+              ? [0, -4, -14]
+              : 0,
           }}
           transition={{
-            duration: 0.45,
+            duration: 2.2,
+            times: [0, 0.45, 1],
             ease: [0.22, 1, 0.36, 1],
           }}
           className="
@@ -133,7 +201,8 @@ export default function Intro({
           <p
             className="
               mb-2 text-[10px]
-              font-medium tracking-[0.25em]
+              font-medium
+              tracking-[0.25em]
               text-[#9b8069]
             "
           >
@@ -142,7 +211,8 @@ export default function Intro({
 
           <h1
             className="
-              font-serif text-[clamp(1.35rem,6vw,1.8rem)]
+              font-serif
+              text-[clamp(1.35rem,6vw,1.8rem)]
               font-normal leading-[1.7]
               text-[#6c5748]
             "
@@ -153,7 +223,8 @@ export default function Intro({
           <div
             aria-hidden="true"
             className="
-              mx-auto mt-3 h-px w-14
+              mx-auto mt-3
+              h-px w-14
               bg-gradient-to-r
               from-transparent
               via-[#bd9a64]
@@ -163,22 +234,28 @@ export default function Intro({
         </motion.header>
 
         <Envelope
-          isOpen={isOpen}
+          isOpen={isOpening}
           onOpen={handleOpen}
         />
 
-        {/* Sentence below the envelope */}
+        {/* Text below envelope */}
         <motion.div
           animate={{
-            opacity: isOpen ? 0 : 1,
-            y: isOpen ? 8 : 0,
+            opacity: isOpening
+              ? [1, 0.6, 0]
+              : 1,
+
+            y: isOpening
+              ? [0, 3, 10]
+              : 0,
           }}
           transition={{
-            duration: 0.3,
+            duration: 1.6,
+            times: [0, 0.42, 1],
             ease: "easeOut",
           }}
           className="
-            mt-1 flex min-h-12
+            mt-2 flex min-h-12
             flex-col items-center
             justify-center text-center
           "
@@ -186,13 +263,11 @@ export default function Intro({
           <p
             className="
               text-[13px]
-              font-normal text-[#75675c]
+              text-[#75675c]
               drop-shadow-sm
             "
           >
-            {isOpen
-              ? intro.openingLabel
-              : intro.openLabel}
+            {intro.openLabel}
           </p>
 
           <motion.span
@@ -202,7 +277,11 @@ export default function Intro({
                 ? undefined
                 : {
                     y: [0, 4, 0],
-                    opacity: [0.45, 1, 0.45],
+                    opacity: [
+                      0.4,
+                      1,
+                      0.4,
+                    ],
                   }
             }
             transition={{

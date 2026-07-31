@@ -14,7 +14,7 @@ const invitationData = {
     cardTitle: "بطاقة الدعوة",
 
     openLabel: "اضغط لفتح الدعوة",
-    openingLabel: "لحظات وتُفتح دعوتكم",
+    openingLabel: "جارٍ فتح الدعوة",
   },
 
   hero: {
