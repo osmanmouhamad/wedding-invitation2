@@ -1,17 +1,18 @@
-export const introTiming = Object.freeze({
-  envelopeOpenSeconds: 4.6,
-  envelopeExitSeconds: 5.2,
-  heroRevealMs: 3300,
-  introFadeMs: 3900,
-  introCompleteMs: 5350,
-});
+export const introTiming =
+  Object.freeze({
+    envelopeOpenSeconds: 4.6,
+    envelopeExitSeconds: 5.2,
+    heroRevealMs: 3300,
+    introFadeMs: 3900,
+    introCompleteMs: 5350,
+  });
 
 const invitationData = {
   couple: {
     groomName: "اسم العريس",
     brideName: "اسم العروس",
 
-    // A للعريس أولًا، ثم M للعروس.
+    // A للعريس أولًا، ثم M للعروس
     monogram: "A & M",
     sealLetters: ["A", "M"],
   },
@@ -24,17 +25,23 @@ const invitationData = {
       "وبوجودكم تكتمل الحكاية",
     ],
 
-    cardEyebrow: "WEDDING INVITATION",
-    cardTitle: "دعوةٌ من القلب",
+    cardEyebrow:
+      "WEDDING INVITATION",
 
-    openLabel: "افتحوا الختم",
-    openHint: "ولتبدأ الحكاية",
-    openingLabel: "جارٍ فتح الدعوة",
+    cardTitle:
+      "دعوةٌ من القلب",
+
+    openLabel:
+      "اضغطوا على الختم",
+
+    openingLabel:
+      "جارٍ فتح الدعوة",
   },
 
   hero: {
     eyebrow: "بكل الحب",
     title: "نحن نتزوج",
+
     subtitle:
       "جمعنا الحب، ويسعدنا أن يجمعنا بكم في أجمل أيام العمر.",
   },
