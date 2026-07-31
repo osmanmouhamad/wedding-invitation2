@@ -13,6 +13,13 @@ import introBackground from "../assets/images/intro-bg.webp";
 import Envelope from "../components/Envelope";
 import invitationData from "../data/invitationData";
 
+const smoothEase = [
+  0.22,
+  1,
+  0.36,
+  1,
+];
+
 export default function Intro({
   onRevealHero,
   onComplete,
@@ -52,7 +59,7 @@ export default function Intro({
       const completeTimer =
         window.setTimeout(() => {
           onComplete?.();
-        }, 400);
+        }, 350);
 
       return () => {
         window.clearTimeout(
@@ -63,36 +70,42 @@ export default function Intro({
 
     /*
       0ms:
-      يبدأ فتح الظرف ببطء.
+      يبدأ فتح الظرف.
 
-      2900ms:
+      3250ms:
       يبدأ ظهور الـHero من الخلف.
 
-      3600ms:
-      تبدأ خلفية الـIntro بالاختفاء.
+      4150ms:
+      تبدأ شاشة الـIntro بالاختفاء.
 
-      5500ms:
-      ينتهي الانتقال ويُحذف الـIntro.
+      6100ms:
+      ينتهي الانتقال بالكامل.
     */
 
     const revealTimer =
       window.setTimeout(() => {
         onRevealHero?.();
-      }, 2900);
+      }, 3250);
 
     const fadeTimer =
       window.setTimeout(() => {
         setIsFading(true);
-      }, 3600);
+      }, 4150);
 
     const completeTimer =
       window.setTimeout(() => {
         onComplete?.();
-      }, 5500);
+      }, 6100);
 
     return () => {
-      window.clearTimeout(revealTimer);
-      window.clearTimeout(fadeTimer);
+      window.clearTimeout(
+        revealTimer,
+      );
+
+      window.clearTimeout(
+        fadeTimer,
+      );
+
       window.clearTimeout(
         completeTimer,
       );
@@ -119,26 +132,39 @@ export default function Intro({
       transition={{
         duration: shouldReduceMotion
           ? 0.2
-          : 1.9,
+          : 1.85,
 
-        ease: [0.22, 1, 0.36, 1],
+        ease: smoothEase,
       }}
       className="
         absolute inset-0 z-20
-        flex min-h-[100svh] w-full
-        items-center justify-center
-        overflow-hidden
+        flex min-h-[100svh]
+        w-full items-center
+        justify-center overflow-hidden
         bg-[#f2e7db]
       "
     >
       {/* Background */}
-      <img
+      <motion.img
         src={introBackground}
         alt=""
         aria-hidden="true"
         draggable="false"
         decoding="async"
         fetchPriority="high"
+        animate={{
+          scale: isOpening
+            ? 1.035
+            : 1,
+
+          opacity: isOpening
+            ? 0.88
+            : 1,
+        }}
+        transition={{
+          duration: 5.8,
+          ease: smoothEase,
+        }}
         className="
           pointer-events-none
           absolute inset-0
@@ -147,22 +173,22 @@ export default function Intro({
         "
       />
 
-      {/* Soft overlay */}
+      {/* Background overlay */}
       <motion.div
         aria-hidden="true"
         animate={{
           opacity: isOpening
-            ? 0.15
+            ? 0.2
             : 1,
         }}
         transition={{
-          duration: 4.3,
+          duration: 4.8,
           ease: "easeOut",
         }}
         className="
           pointer-events-none
           absolute inset-0
-          bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(242,230,219,0.12))]
+          bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(242,230,219,0.14))]
         "
       />
 
@@ -179,22 +205,28 @@ export default function Intro({
       >
         {/* Text above envelope */}
         <motion.header
+          initial={false}
           animate={{
             opacity: isOpening
               ? [1, 0.75, 0]
               : 1,
 
             y: isOpening
-              ? [0, -4, -14]
+              ? [0, -5, -16]
               : 0,
           }}
           transition={{
-            duration: 2.2,
-            times: [0, 0.45, 1],
-            ease: [0.22, 1, 0.36, 1],
+            duration: 2.4,
+            times: [
+              0,
+              0.48,
+              1,
+            ],
+            ease: smoothEase,
           }}
           className="
-            mb-5 max-w-[340px]
+            mb-5 w-full
+            max-w-[360px]
             text-center
           "
         >
@@ -212,12 +244,22 @@ export default function Intro({
           <h1
             className="
               font-serif
-              text-[clamp(1.35rem,6vw,1.8rem)]
-              font-normal leading-[1.7]
+              text-[clamp(1.3rem,5.8vw,1.75rem)]
+              font-normal
+              leading-[1.7]
               text-[#6c5748]
             "
           >
-            {intro.heading}
+            {intro.headingLines.map(
+              (line, index) => (
+                <span
+                  key={`${line}-${index}`}
+                  className="block"
+                >
+                  {line}
+                </span>
+              ),
+            )}
           </h1>
 
           <div
@@ -240,34 +282,50 @@ export default function Intro({
 
         {/* Text below envelope */}
         <motion.div
+          initial={false}
           animate={{
             opacity: isOpening
               ? [1, 0.6, 0]
               : 1,
 
             y: isOpening
-              ? [0, 3, 10]
+              ? [0, 3, 12]
               : 0,
           }}
           transition={{
-            duration: 1.6,
-            times: [0, 0.42, 1],
+            duration: 1.8,
+            times: [
+              0,
+              0.42,
+              1,
+            ],
             ease: "easeOut",
           }}
           className="
-            mt-2 flex min-h-12
+            mt-2 flex
+            min-h-[72px]
             flex-col items-center
             justify-center text-center
           "
         >
           <p
             className="
-              text-[13px]
-              text-[#75675c]
+              text-[14px]
+              leading-7
+              text-[#6f6055]
               drop-shadow-sm
             "
           >
             {intro.openLabel}
+          </p>
+
+          <p
+            className="
+              mt-1 text-[11px]
+              text-[#9c836e]
+            "
+          >
+            {intro.openHint}
           </p>
 
           <motion.span
@@ -276,11 +334,16 @@ export default function Intro({
               shouldReduceMotion
                 ? undefined
                 : {
-                    y: [0, 4, 0],
-                    opacity: [
-                      0.4,
+                    scale: [
                       1,
-                      0.4,
+                      1.45,
+                      1,
+                    ],
+
+                    opacity: [
+                      0.3,
+                      0.85,
+                      0.3,
                     ],
                   }
             }
@@ -290,12 +353,11 @@ export default function Intro({
               ease: "easeInOut",
             }}
             className="
-              mt-2 block text-[12px]
-              text-[#a78d77]
+              mt-3 block size-[5px]
+              rounded-full
+              bg-[#b5915a]
             "
-          >
-            ↓
-          </motion.span>
+          />
         </motion.div>
       </div>
     </motion.section>

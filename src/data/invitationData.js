@@ -2,26 +2,53 @@ const invitationData = {
   couple: {
     firstName: "اسم العريس",
     secondName: "اسم العروس",
+
+    groom: {
+      name: "اسم العريس",
+      initial: "A",
+    },
+
+    bride: {
+      name: "اسم العروس",
+      initial: "M",
+    },
+
     initials: "A & M",
+    monogram: "A & M",
     sealLetters: ["A", "M"],
   },
 
   intro: {
     kicker: "دعوة زفاف",
-    heading: "بوجودكم تكتمل فرحتنا",
+
+    headingLines: [
+      "لكل فرحٍ بداية…",
+      "وبوجودكم تكتمل الحكاية",
+    ],
 
     cardEyebrow: "WEDDING INVITATION",
-    cardTitle: "بطاقة الدعوة",
+    cardTitle: "دعوةٌ من القلب",
 
-    openLabel: "اضغط لفتح الدعوة",
-    openingLabel: "جارٍ فتح الدعوة",
+    cardMessageLines: [
+      "لنحتفل معًا",
+      "ببداية عمرٍ جميل",
+    ],
+
+    openLabel: "افتحوا الدعوة لتبدأ الحكاية",
+    openHint: "اضغطوا على الختم",
   },
 
   hero: {
     eyebrow: "بكل الحب",
-    title: "نحن نتزوج",
+    title: "جمعنا الحب…",
+
+    messageLines: [
+      "ويسعدنا أن يجمعنا بكم",
+      "في يومٍ نبدأ فيه أجمل فصول العمر",
+    ],
+
     subtitle:
-      "يسعدنا أن تشاركونا فرحتنا في يومنا المميز",
+      "ويسعدنا أن يجمعنا بكم في يومٍ نبدأ فيه أجمل فصول العمر",
   },
 };
 
