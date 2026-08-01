@@ -94,7 +94,8 @@ const envelopePanels = [
       transformOrigin: "top center",
       background: "linear-gradient(180deg, #f2e5d6 0%, #d4bba5 100%)",
     },
-    shine: "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.55), transparent 52%)",
+    shine:
+      "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.55), transparent 52%)",
   },
 ];
 
@@ -126,8 +127,7 @@ export default function Envelope({ isOpen = false, onOpen }) {
   const shouldReduceMotion = useReducedMotion();
   const { couple, intro } = invitationData;
 
-  const [groomLetter = "A", brideLetter = "M"] =
-    couple.sealLetters ?? [];
+  const [groomLetter = "A", brideLetter = "M"] = couple.sealLetters ?? [];
 
   const handleOpen = () => {
     if (isOpen) return;
@@ -336,9 +336,13 @@ export default function Envelope({ isOpen = false, onOpen }) {
             <span className="gold-seal">
               <span className="gold-seal__center">
                 <span dir="ltr" className="gold-seal__monogram">
-                  <span>{groomLetter}</span>
-                  <span className="gold-seal__ampersand">&amp;</span>
-                  <span>{brideLetter}</span>
+                  <span className="gold-seal__letter gold-seal__letter--a">
+                    {groomLetter}
+                  </span>
+
+                  <span className="gold-seal__letter gold-seal__letter--m">
+                    {brideLetter}
+                  </span>
                 </span>
               </span>
             </span>

@@ -1,9 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useState } from "react";
+import {
+  motion,
+  useReducedMotion,
+} from "motion/react";
 
 import introBackground from "../assets/images/intro-bg.webp";
 import Envelope from "../components/Envelope";
-import invitationData, { introTiming } from "../data/invitationData";
+import invitationData, {
+  introTiming,
+} from "../data/invitationData";
 
 const smoothEase = [0.22, 1, 0.36, 1];
 
@@ -20,31 +25,33 @@ export default function Intro({
   const shouldReduceMotion =
     useReducedMotion();
 
-  const hasStartedRef = useRef(false);
+  const intro =
+    invitationData?.intro ?? {};
 
-  const { intro } = invitationData;
   const headingLines =
-    intro.headingLines ?? [];
+    Array.isArray(intro.headingLines)
+      ? intro.headingLines
+      : [];
 
   const handleOpen = () => {
-    if (isOpening) return;
+    if (isOpening) {
+      return;
+    }
 
     setIsOpening(true);
   };
 
   useEffect(() => {
-    if (
-      !isOpening ||
-      hasStartedRef.current
-    ) {
-      return;
+    if (!isOpening) {
+      return undefined;
     }
 
-    hasStartedRef.current = true;
-
     if (shouldReduceMotion) {
-      setIsFading(true);
-      onRevealHero?.();
+      const revealTimer =
+        window.setTimeout(() => {
+          onRevealHero?.();
+          setIsFading(true);
+        }, 0);
 
       const completeTimer =
         window.setTimeout(() => {
@@ -52,9 +59,8 @@ export default function Intro({
         }, 280);
 
       return () => {
-        window.clearTimeout(
-          completeTimer,
-        );
+        window.clearTimeout(revealTimer);
+        window.clearTimeout(completeTimer);
       };
     }
 
@@ -76,9 +82,7 @@ export default function Intro({
     return () => {
       window.clearTimeout(revealTimer);
       window.clearTimeout(fadeTimer);
-      window.clearTimeout(
-        completeTimer,
-      );
+      window.clearTimeout(completeTimer);
     };
   }, [
     isOpening,
@@ -90,11 +94,15 @@ export default function Intro({
   return (
     <motion.section
       dir="rtl"
-      initial={{ opacity: 1 }}
+      initial={{
+        opacity: 1,
+      }}
       animate={{
         opacity: isFading ? 0 : 1,
       }}
-      exit={{ opacity: 0 }}
+      exit={{
+        opacity: 0,
+      }}
       transition={{
         duration: shouldReduceMotion
           ? 0.2
@@ -190,18 +198,47 @@ export default function Intro({
             text-center
           "
         >
-          <p
+          {/* Decorative kicker */}
+          <div
             className="
-              mb-2
-              text-[clamp(0.9rem,3.8vw,1.05rem)]
-              font-medium
-              leading-7
-              text-[#9a765c]
+              mb-3 flex items-center
+              justify-center gap-3
             "
           >
-            {intro.kicker}
-          </p>
+            <span
+              aria-hidden="true"
+              className="
+                h-px w-8
+                bg-gradient-to-r
+                from-transparent
+                to-[#b9935e]/70
+              "
+            />
 
+            <p
+              className="
+                text-[clamp(0.75rem,3vw,0.88rem)]
+                font-medium
+                tracking-[0.12em]
+                text-[#9a765c]
+              "
+            >
+              {intro.kicker ??
+                "موعدٌ مع الفرح"}
+            </p>
+
+            <span
+              aria-hidden="true"
+              className="
+                h-px w-8
+                bg-gradient-to-l
+                from-transparent
+                to-[#b9935e]/70
+              "
+            />
+          </div>
+
+          {/* Main title */}
           <h1
             className="
               font-serif
@@ -236,7 +273,7 @@ export default function Intro({
           />
         </motion.header>
 
-        {/* Envelope */}
+        {/* Envelope — keeps current size */}
         <div className="intro-envelope-frame">
           <Envelope
             isOpen={isOpening}
@@ -244,7 +281,7 @@ export default function Intro({
           />
         </div>
 
-        {/* Instruction below envelope */}
+        {/* Text below envelope */}
         <motion.div
           initial={false}
           animate={{
@@ -265,29 +302,77 @@ export default function Intro({
             ease: "easeOut",
           }}
           className="
-            flex min-h-[54px]
-            items-center justify-center
+            flex min-h-[70px]
+            flex-col items-center
+            justify-center
             px-4 text-center
           "
         >
-          <p
-  className="
-    text-[clamp(0.9rem,3.7vw,1.05rem)]
-    font-medium
-    leading-7
-    text-[#806958]
-  "
->
-  {intro.openLabel}
-</p>
+
+          <div
+            className="
+              mt-2 inline-flex
+              items-center gap-2
+              rounded-full
+              border border-[#b9935e]/30
+              bg-[#fffaf2]/45
+              px-3.5 py-1.5
+              backdrop-blur-sm
+            "
+          >
+            <motion.span
+              aria-hidden="true"
+              animate={
+                shouldReduceMotion
+                  ? undefined
+                  : {
+                      scale: [
+                        1,
+                        1.45,
+                        1,
+                      ],
+
+                      opacity: [
+                        0.4,
+                        1,
+                        0.4,
+                      ],
+                    }
+              }
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="
+                block size-[5px]
+                rounded-full
+                bg-[#b58d55]
+                shadow-[0_0_8px_rgba(181,141,85,0.45)]
+              "
+            />
+
+            <span
+              className="
+                text-[clamp(0.72rem,2.8vw,0.82rem)]
+                font-medium
+                text-[#927866]
+              "
+            >
+              {intro.openHint ??
+                "اضغطوا على الختم"}
+            </span>
+          </div>
         </motion.div>
 
+        {/* Accessibility status */}
         <p
           className="sr-only"
           aria-live="polite"
         >
           {isOpening
-            ? intro.openingLabel
+            ? intro.openingLabel ??
+              "جارٍ فتح الدعوة"
             : ""}
         </p>
       </div>

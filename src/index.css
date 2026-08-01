@@ -190,27 +190,49 @@ bdi[dir="ltr"] {
 }
 
 .gold-seal__monogram {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 1px;
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+
   color: #704708;
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(23px, 6.3vw, 30px);
-  font-style: italic;
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
   font-weight: 600;
-  line-height: 1;
+
   text-shadow:
     0 1px 0 rgba(255, 244, 178, 0.95),
-    0 2px 1px rgba(65, 38, 3, 0.38);
+    0 2px 1px rgba(65, 38, 3, 0.35);
+}
+
+.gold-seal__letter {
+  position: absolute;
+  line-height: 0.82;
   user-select: none;
 }
 
-.gold-seal__ampersand {
-  font-size: 0.55em;
-  font-style: normal;
-  opacity: 0.85;
-  transform: translateY(-1px);
+.gold-seal__letter--a {
+  top: 17%;
+  left: 14%;
+
+  font-size: clamp(30px, 7.7vw, 37px);
+  font-style: italic;
+
+  transform: rotate(-5deg);
+}
+
+.gold-seal__letter--m {
+  right: 11%;
+  bottom: 14%;
+
+  font-size: clamp(27px, 7vw, 34px);
+  font-style: italic;
+
+  transform: rotate(4deg);
 }
 
 @media (prefers-reduced-motion: reduce) {
