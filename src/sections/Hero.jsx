@@ -1,121 +1,334 @@
-import { motion, useReducedMotion } from "motion/react";
+import {
+  motion,
+  useReducedMotion,
+} from "motion/react";
 
-import introBackground from "../assets/images/intro-bg.webp";
 import invitationData from "../data/invitationData";
 
 const smoothEase = [0.22, 1, 0.36, 1];
 
-export default function Hero() {
-  const shouldReduceMotion = useReducedMotion();
-  const { couple, hero } = invitationData;
+function ArrowDownIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="size-[17px]"
+    >
+      <path d="M12 4v15" />
+      <path d="m6.5 13.5 5.5 5.5 5.5-5.5" />
+    </svg>
+  );
+}
+
+function DecorativeDivider() {
+  return (
+    <div
+      aria-hidden="true"
+      className="flex items-center justify-center gap-3"
+    >
+      <span className="h-px w-14 bg-gradient-to-r from-transparent to-[#b9935e]/75" />
+      <span className="block size-[8px] rotate-45 border border-[#b9935e]/70 bg-[#fffaf4]" />
+      <span className="h-px w-14 bg-gradient-to-l from-transparent to-[#b9935e]/75" />
+    </div>
+  );
+}
+
+export default function Hero({
+  onShowDetails,
+  detailsVisible = false,
+}) {
+  const shouldReduceMotion =
+    useReducedMotion();
+
+  const { couple, hero } =
+    invitationData;
 
   return (
     <section
       dir="rtl"
-      className="relative isolate flex min-h-[100svh] items-center justify-center overflow-hidden px-5 py-10"
+      className="
+        relative isolate
+        flex min-h-[100svh]
+        items-stretch justify-center
+        overflow-hidden
+        bg-[#f2e7db]
+        p-2
+        sm:p-3
+      "
     >
-      <motion.img
-        src={introBackground}
-        alt=""
-        aria-hidden="true"
-        draggable="false"
-        decoding="async"
-        initial={{ scale: shouldReduceMotion ? 1 : 1.04 }}
-        animate={{ scale: 1 }}
-        transition={{
-          duration: shouldReduceMotion ? 0.2 : 2.4,
-          ease: smoothEase,
-        }}
-        className="pointer-events-none absolute inset-0 -z-20 h-full w-full select-none object-cover object-center"
-      />
-
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(255,252,248,0.26),rgba(244,233,223,0.86))]"
-      />
-
       <motion.article
         initial={
           shouldReduceMotion
             ? { opacity: 0 }
-            : { opacity: 0, y: 26, scale: 0.975 }
+            : {
+                opacity: 0,
+                y: 22,
+                scale: 0.988,
+              }
         }
-        animate={{ opacity: 1, y: 0, scale: 1 }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          scale: 1,
+        }}
         transition={{
-          duration: shouldReduceMotion ? 0.2 : 1.15,
-          delay: shouldReduceMotion ? 0 : 0.08,
+          duration: shouldReduceMotion
+            ? 0.2
+            : 1.05,
+          delay: shouldReduceMotion
+            ? 0
+            : 0.08,
           ease: smoothEase,
         }}
-        className="w-full max-w-[430px] rounded-[32px] border border-white/65 bg-white/55 px-7 py-11 text-center shadow-[0_30px_80px_rgba(92,66,48,0.16)] backdrop-blur-md"
+        className="
+          relative flex
+          min-h-[calc(100svh-1rem)]
+          w-full max-w-[760px]
+          flex-col items-center
+          overflow-hidden
+          rounded-[30px]
+          border border-[#b9935e]/38
+          bg-[#fffaf4]
+          px-5 pb-8 pt-10
+          text-center
+          shadow-[0_14px_40px_rgba(96,75,61,0.06)]
+          sm:min-h-[calc(100svh-1.5rem)]
+          sm:rounded-[34px]
+          sm:px-10
+          sm:pb-10
+          sm:pt-12
+        "
       >
-        <motion.p
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: shouldReduceMotion ? 0.2 : 0.75,
-            delay: shouldReduceMotion ? 0 : 0.18,
-            ease: smoothEase,
-          }}
-          className="mb-5 text-[15px] font-medium text-[#967b65]"
-        >
-          {hero.eyebrow}
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: shouldReduceMotion ? 0.2 : 0.9,
-            delay: shouldReduceMotion ? 0 : 0.28,
-            ease: smoothEase,
-          }}
-          className="mx-auto mb-7 grid size-24 place-items-center rounded-full border border-[#c8a764]/45 bg-[#fffaf2]/85 shadow-[0_12px_30px_rgba(94,67,45,0.1)]"
-        >
-          <bdi
-            dir="ltr"
-            className="font-latin text-3xl tracking-[0.04em] text-[#79634e]"
-          >
-            {couple.monogram}
-          </bdi>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: shouldReduceMotion ? 0.2 : 0.85,
-            delay: shouldReduceMotion ? 0 : 0.4,
-            ease: smoothEase,
-          }}
-          className="font-serif text-[clamp(2rem,8vw,2.8rem)] leading-[1.45] text-[#695444]"
-        >
-          {hero.title}
-        </motion.h1>
-
-        <motion.div
+        {/* Inner border */}
+        <div
           aria-hidden="true"
-          initial={{ opacity: 0, scaleX: 0 }}
-          animate={{ opacity: 1, scaleX: 1 }}
-          transition={{
-            duration: shouldReduceMotion ? 0.2 : 0.8,
-            delay: shouldReduceMotion ? 0 : 0.56,
-            ease: smoothEase,
-          }}
-          className="mx-auto my-6 h-px w-16 bg-gradient-to-r from-transparent via-[#bd9a62] to-transparent"
+          className="
+            pointer-events-none
+            absolute inset-[8px]
+            rounded-[23px]
+            border border-[#b9935e]/22
+            sm:inset-[10px]
+            sm:rounded-[26px]
+          "
         />
 
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: shouldReduceMotion ? 0.2 : 0.9,
-            delay: shouldReduceMotion ? 0 : 0.65,
-            ease: smoothEase,
-          }}
-          className="mx-auto max-w-[315px] text-[15px] leading-8 text-[#74655a]"
+        <div
+          className="
+            relative z-10
+            flex w-full max-w-[640px]
+            flex-1 flex-col
+            items-center
+          "
         >
-          {hero.subtitle}
-        </motion.p>
+          {/* Basmala */}
+          <motion.p
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: shouldReduceMotion
+                ? 0.2
+                : 0.7,
+              delay: shouldReduceMotion
+                ? 0
+                : 0.12,
+              ease: smoothEase,
+            }}
+            className="
+              font-serif
+              text-[clamp(1.05rem,4.7vw,1.35rem)]
+              leading-[1.8]
+              text-[#604b3d]
+            "
+          >
+            {hero.basmala}
+          </motion.p>
+
+          {/* Verse */}
+          <motion.blockquote
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: shouldReduceMotion
+                ? 0.2
+                : 0.82,
+              delay: shouldReduceMotion
+                ? 0
+                : 0.24,
+              ease: smoothEase,
+            }}
+            className="
+              mx-auto mt-5
+              max-w-[540px]
+              font-serif
+              text-[clamp(0.88rem,3.5vw,1.05rem)]
+              leading-[2.15]
+              text-[#735d4d]
+            "
+          >
+            {hero.verse}
+          </motion.blockquote>
+
+          {/* Verse reference */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: shouldReduceMotion
+                ? 0.2
+                : 0.65,
+              delay: shouldReduceMotion
+                ? 0
+                : 0.38,
+            }}
+            className="
+              mt-3
+              font-serif
+              text-[clamp(0.84rem,3vw,0.95rem)]
+              text-[#8f735d]
+            "
+          >
+            {hero.verseReference}
+          </motion.p>
+
+          {/* Divider */}
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0.86 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{
+              duration: shouldReduceMotion
+                ? 0.2
+                : 0.75,
+              delay: shouldReduceMotion
+                ? 0
+                : 0.48,
+              ease: smoothEase,
+            }}
+            className="mt-8"
+          >
+            <DecorativeDivider />
+          </motion.div>
+
+          {/* Couple names */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: shouldReduceMotion
+                ? 0.2
+                : 0.9,
+              delay: shouldReduceMotion
+                ? 0
+                : 0.56,
+              ease: smoothEase,
+            }}
+            className="mt-9 flex w-full flex-col items-center"
+          >
+            {/* Groom */}
+            <p
+              className="
+                font-serif
+                text-[clamp(2.35rem,11vw,4.35rem)]
+                leading-[1.08]
+                text-[#604b3d]
+              "
+            >
+              {couple.groomName}
+            </p>
+
+            {/* Separator */}
+            <div className="my-3 flex items-center justify-center gap-3">
+              <span
+                aria-hidden="true"
+                className="h-px w-12 bg-gradient-to-r from-transparent to-[#b9935e]"
+              />
+              <span
+                className="
+                  font-serif
+                  text-[clamp(1.1rem,4.3vw,1.4rem)]
+                  leading-none
+                  text-[#b9935e]
+                "
+              >
+                و
+              </span>
+              <span
+                aria-hidden="true"
+                className="h-px w-12 bg-gradient-to-l from-transparent to-[#b9935e]"
+              />
+            </div>
+
+            {/* Bride */}
+            <p
+              className="
+                font-serif
+                text-[clamp(2.35rem,11vw,4.35rem)]
+                leading-[1.08]
+                text-[#604b3d]
+              "
+            >
+              {couple.brideName}
+            </p>
+          </motion.div>
+
+          {/* Button */}
+          <motion.button
+            type="button"
+            onClick={onShowDetails}
+            disabled={detailsVisible}
+            aria-expanded={detailsVisible}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileHover={
+              detailsVisible
+                ? undefined
+                : { y: -1 }
+            }
+            whileTap={
+              detailsVisible
+                ? undefined
+                : { scale: 0.985 }
+            }
+            transition={{
+              duration: shouldReduceMotion
+                ? 0.2
+                : 0.8,
+              delay: shouldReduceMotion
+                ? 0
+                : 0.68,
+              ease: smoothEase,
+            }}
+            className="
+              mt-auto
+              inline-flex min-h-12
+              items-center justify-center
+              gap-2
+              rounded-full
+              border border-[#c8a36d]/65
+              bg-[#f6eee2]
+              px-6 py-3
+              text-[clamp(0.84rem,3.2vw,0.95rem)]
+              font-medium
+              text-[#604b3d]
+              shadow-[0_8px_20px_rgba(96,75,61,0.05)]
+              transition-colors
+              hover:bg-[#fbf6ef]
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-[#b9935e]/55
+              focus-visible:ring-offset-4
+              disabled:cursor-default
+              disabled:opacity-65
+            "
+          >
+            <span>{hero.scrollLabel}</span>
+            <ArrowDownIcon />
+          </motion.button>
+        </div>
       </motion.article>
     </section>
   );
