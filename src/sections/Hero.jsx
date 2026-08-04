@@ -303,7 +303,7 @@ export default function Hero({
               ease: smoothEase,
             }}
             className="
-              mt-auto
+              mt-8 sm:mt-10
               inline-flex min-h-12
               items-center justify-center
               gap-2
