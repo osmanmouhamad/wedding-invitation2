@@ -369,49 +369,7 @@ export default function Footer() {
         </motion.div>
       </div>
 
-    <div
-  className="
-    relative mt-14
-    flex flex-col
-    items-center
-    text-center
-  "
->
-  <p
-    className="
-      font-serif
-      text-[clamp(1.45rem,6vw,2rem)]
-      leading-relaxed
-      text-[#604b3d]
-    "
-  >
-     منّي ومن فاطمة نقول لكم :
-  </p>
-
-  <span
-    aria-hidden="true"
-    className="
-      my-4 h-px w-20
-      bg-gradient-to-r
-      from-transparent
-      via-[#b9935e]/80
-      to-transparent
-    "
-  />
-
-  <p
-    className="
-      max-w-lg
-      font-serif
-      text-sm
-      leading-8
-      text-[#806958]/80
-      sm:text-base
-    "
-  >
-    بارك الله لكما وعليكما، وجمع بينكما في خير
-  </p>
-</div>
+ 
     </footer>
   );
 }
