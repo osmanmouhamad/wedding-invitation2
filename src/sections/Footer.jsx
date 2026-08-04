@@ -6,7 +6,10 @@ import {
 import OrnamentDivider from "../components/ui/OrnamentDivider";
 import invitationData from "../data/invitationData";
 
-function LeafMark() {
+function LeafMark({
+  mirrored = false,
+  className = "",
+}) {
   return (
     <svg
       viewBox="0 0 80 42"
@@ -16,7 +19,11 @@ function LeafMark() {
       strokeWidth="1.2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-10 w-20"
+      className={`
+        h-10 w-20
+        ${mirrored ? "-scale-x-100" : ""}
+        ${className}
+      `}
     >
       <path d="M40 38C36 22 28 10 12 4" />
       <path d="M40 38C45 21 54 10 69 4" />
@@ -35,58 +42,18 @@ function CoupleSignature({
   brideName,
 }) {
   return (
-    <div
-      className="
-        mt-9 flex
-        flex-col items-center
-      "
-    >
-      <div
-        aria-hidden="true"
-        className="
-          flex items-center
-          justify-center gap-3
-        "
-      >
-        <span
-          className="
-            h-px w-14
-            bg-gradient-to-r
-            from-transparent
-            to-[#b9935e]/75
-          "
-        />
-
-        <span
-          className="
-            size-[7px]
-            rotate-45
-            border border-[#b9935e]/75
-            bg-[#fffaf4]
-          "
-        />
-
-        <span
-          className="
-            h-px w-14
-            bg-gradient-to-l
-            from-transparent
-            to-[#b9935e]/75
-          "
-        />
-      </div>
-
+    <div className="mt-8">
       <div
         className="
-          mt-5 flex
-          flex-wrap items-center
-          justify-center gap-x-3 gap-y-2
+          flex flex-wrap
+          items-center justify-center
+          gap-x-4 gap-y-3
         "
       >
         <span
           className="
             font-serif
-            text-[clamp(1.8rem,7vw,2.45rem)]
+            text-[clamp(1.9rem,8vw,2.8rem)]
             leading-none
             text-[#604b3d]
           "
@@ -95,42 +62,24 @@ function CoupleSignature({
         </span>
 
         <span
+          aria-hidden="true"
           className="
-            flex items-center
-            gap-2
+            flex size-10
+            items-center justify-center
+            rounded-full
+            border border-[#b9935e]/35
+            bg-[#fffaf4]/70
+            font-serif text-lg
+            text-[#b9935e]
           "
         >
-          <span
-            aria-hidden="true"
-            className="
-              h-px w-5
-              bg-[#b9935e]/65
-            "
-          />
-
-          <span
-            className="
-              font-serif
-              text-[1.15rem]
-              text-[#b9935e]
-            "
-          >
-            و
-          </span>
-
-          <span
-            aria-hidden="true"
-            className="
-              h-px w-5
-              bg-[#b9935e]/65
-            "
-          />
+          و
         </span>
 
         <span
           className="
             font-serif
-            text-[clamp(1.8rem,7vw,2.45rem)]
+            text-[clamp(1.9rem,8vw,2.8rem)]
             leading-none
             text-[#604b3d]
           "
@@ -142,24 +91,38 @@ function CoupleSignature({
       <div
         aria-hidden="true"
         className="
-          mt-5 flex
+          mt-6 flex
           items-center justify-center
-          gap-2 text-[#b9935e]/75
+          gap-3 text-[#b9935e]/75
         "
       >
-        <span className="h-px w-7 bg-current" />
+        <span
+          className="
+            h-px w-12
+            bg-gradient-to-r
+            from-transparent
+            to-current
+          "
+        />
+
         <span className="text-[0.65rem]">
           ✦
         </span>
-        <span className="h-px w-7 bg-current" />
+
+        <span
+          className="
+            h-px w-12
+            bg-gradient-to-l
+            from-transparent
+            to-current
+          "
+        />
       </div>
     </div>
   );
 }
 
-export default function Footer({
-  onOpenCredit,
-}) {
+export default function Footer() {
   const shouldReduceMotion =
     useReducedMotion();
 
@@ -176,87 +139,104 @@ export default function Footer({
       ?.trim()
       .split(/\s+/)[0] || "منة";
 
-  const handleOpenCredit = () => {
-    if (
-      typeof onOpenCredit === "function"
-    ) {
-      onOpenCredit();
-      return;
-    }
-
-    window.location.hash =
-      "/fatima-moussa";
+  const itemAnimation = {
+    initial: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 18,
+    },
+    whileInView: {
+      opacity: 1,
+      y: 0,
+    },
+    viewport: {
+      once: true,
+      amount: 0.3,
+    },
+    transition: {
+      duration: shouldReduceMotion
+        ? 0.2
+        : 0.75,
+      ease: [0.22, 1, 0.36, 1],
+    },
   };
 
   return (
     <footer
       dir="rtl"
       className="
-        relative overflow-hidden
+        relative isolate
+        overflow-hidden
         bg-[#f2e7db]
-        px-4 py-20
+        px-5 pb-12 pt-20
         text-center
-        sm:px-6 sm:py-24
+        sm:px-8 sm:pb-14
+        sm:pt-24
       "
     >
+      {/* إضاءة خلفية ناعمة */}
       <div
         aria-hidden="true"
         className="
           pointer-events-none
-          absolute left-1/2 top-[35%]
-          size-[520px]
+          absolute left-1/2 top-[38%]
+          -z-20
+          size-[540px]
           -translate-x-1/2
           -translate-y-1/2
           rounded-full
-          bg-[#fffaf4]/55
+          bg-[#fffaf4]/65
           blur-3xl
         "
       />
 
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: shouldReduceMotion
-            ? 0
-            : 16,
-        }}
-        whileInView={{
-          opacity: 1,
-          y: 0,
-        }}
-        viewport={{
-          once: true,
-          amount: 0.3,
-        }}
-        transition={{
-          duration: shouldReduceMotion
-            ? 0.2
-            : 0.75,
-        }}
+      {/* زخارف جانبية */}
+      <LeafMark
+        className="
+          pointer-events-none
+          absolute -bottom-1
+          -right-5
+          -z-10
+          scale-[2.4]
+          rotate-[-10deg]
+          text-[#b9935e]/15
+        "
+      />
+
+      <LeafMark
+        mirrored
+        className="
+          pointer-events-none
+          absolute -bottom-1
+          -left-5
+          -z-10
+          scale-[2.4]
+          rotate-[10deg]
+          text-[#b9935e]/15
+        "
+      />
+
+      {/* الخط العلوي */}
+      <div
+        aria-hidden="true"
+        className="
+          absolute left-1/2 top-0
+          h-px w-[78%]
+          max-w-3xl
+          -translate-x-1/2
+          bg-gradient-to-r
+          from-transparent
+          via-[#b9935e]/45
+          to-transparent
+        "
+      />
+
+      <div
         className="
           relative mx-auto
           max-w-2xl
-          overflow-hidden
-          rounded-[30px]
-          border border-[#b9935e]/32
-          bg-[#fffaf4]/82
-          px-6 py-12
-          shadow-[0_18px_55px_rgba(96,75,61,0.08)]
-          backdrop-blur-sm
-          sm:px-10 sm:py-14
         "
       >
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute inset-[8px]
-            rounded-[23px]
-            border border-[#b9935e]/16
-          "
-        />
-
-        <div className="relative z-10">
+        <motion.div {...itemAnimation}>
           <span
             className="
               mx-auto flex
@@ -266,119 +246,172 @@ export default function Footer({
           >
             <LeafMark />
           </span>
+        </motion.div>
 
-          <p
-            className="
-              mt-5
-              font-serif
-              text-[clamp(1.55rem,6vw,2.15rem)]
-              leading-[1.6]
-              text-[#604b3d]
-            "
-          >
-            {footer.welcomeMessage}
-          </p>
+        <motion.p
+          {...itemAnimation}
+          transition={{
+            ...itemAnimation.transition,
+            delay: 0.08,
+          }}
+          className="
+            mt-5
+            font-serif
+            text-[clamp(1.7rem,7vw,2.5rem)]
+            leading-[1.6]
+            text-[#604b3d]
+          "
+        >
+          {footer?.welcomeMessage ||
+            "بفرحٍ كبير ننتظر حضوركم"}
+        </motion.p>
 
-          <p
-            className="
-              mx-auto mt-4
-              max-w-xl
-              whitespace-pre-line
-              text-sm
-              leading-8
-              text-[#806958]
-            "
-          >
-            {footer.message}
-          </p>
+        <motion.p
+          {...itemAnimation}
+          transition={{
+            ...itemAnimation.transition,
+            delay: 0.16,
+          }}
+          className="
+            mx-auto mt-4
+            max-w-xl
+            whitespace-pre-line
+            text-sm
+            leading-8
+            text-[#806958]
+            sm:text-base sm:leading-9
+          "
+        >
+          {footer?.message}
+        </motion.p>
 
+        <motion.div
+          {...itemAnimation}
+          transition={{
+            ...itemAnimation.transition,
+            delay: 0.24,
+          }}
+        >
           <OrnamentDivider
             tone="gold"
             size="small"
             className="mt-8"
           />
+        </motion.div>
 
+        <motion.div
+          {...itemAnimation}
+          transition={{
+            ...itemAnimation.transition,
+            delay: 0.32,
+          }}
+        >
           <CoupleSignature
             groomName={groomFirstName}
             brideName={brideFirstName}
           />
+        </motion.div>
 
-          <p
+        <motion.p
+          {...itemAnimation}
+          transition={{
+            ...itemAnimation.transition,
+            delay: 0.4,
+          }}
+          className="
+            mx-auto mt-5
+            max-w-md
+            font-serif
+            text-[1.05rem]
+            leading-8
+            text-[#806958]
+            sm:text-lg
+          "
+        >
+          {footer?.closingMessage ||
+            "بوجودكم تكتمل فرحتنا"}
+        </motion.p>
+
+        <motion.div
+          {...itemAnimation}
+          transition={{
+            ...itemAnimation.transition,
+            delay: 0.48,
+          }}
+          aria-hidden="true"
+          className="
+            mt-8 flex
+            items-center justify-center
+            gap-3 text-[#b9935e]/65
+          "
+        >
+          <span
             className="
-              mt-4 text-sm
-              text-[#806958]
+              h-px w-16
+              bg-gradient-to-r
+              from-transparent
+              to-current
             "
-          >
-            {footer.closingMessage}
-          </p>
+          />
 
-          <motion.button
-            type="button"
-            onClick={handleOpenCredit}
-            whileHover={{
-              y: -2,
-            }}
-            whileTap={{
-              scale: 0.985,
-            }}
+          <span className="text-xs">
+            ◇
+          </span>
+
+          <span
             className="
-              group mx-auto mt-10
-              inline-flex
-              cursor-pointer
-              flex-col items-center
-              rounded-[20px]
-              border border-[#b9935e]/30
-              bg-[#f8efe5]/70
-              px-8 py-4
-              text-center
-              shadow-[0_10px_28px_rgba(96,75,61,0.06)]
-              transition-colors
-              hover:bg-[#fffaf4]
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-[#b9935e]/50
-              focus-visible:ring-offset-4
+              h-px w-16
+              bg-gradient-to-l
+              from-transparent
+              to-current
             "
-            aria-label="فتح صفحة فاطمة موسى"
-          >
-            <span
-              className="
-                text-[0.72rem]
-                tracking-[0.08em]
-                text-[#9b806b]
-              "
-            >
-              تقدمة
-            </span>
+          />
+        </motion.div>
+      </div>
 
-            <span
-              className="
-                mt-1
-                font-serif
-                text-[clamp(1.35rem,5vw,1.7rem)]
-                text-[#604b3d]
-                transition-colors
-                group-hover:text-[#8b683f]
-              "
-            >
-              فاطمة موسى
-            </span>
+    <div
+  className="
+    relative mt-14
+    flex flex-col
+    items-center
+    text-center
+  "
+>
+  <p
+    className="
+      font-serif
+      text-[clamp(1.45rem,6vw,2rem)]
+      leading-relaxed
+      text-[#604b3d]
+    "
+  >
+     منّي ومن فاطمة نقول لكم :
+  </p>
 
-            <span
-              aria-hidden="true"
-              className="
-                mt-2 h-px w-12
-                bg-gradient-to-r
-                from-transparent
-                via-[#b9935e]
-                to-transparent
-                transition-all
-                group-hover:w-20
-              "
-            />
-          </motion.button>
-        </div>
-      </motion.div>
+  <span
+    aria-hidden="true"
+    className="
+      my-4 h-px w-20
+      bg-gradient-to-r
+      from-transparent
+      via-[#b9935e]/80
+      to-transparent
+    "
+  />
+
+  <p
+    className="
+      max-w-lg
+      font-serif
+      text-sm
+      leading-8
+      text-[#806958]/80
+      sm:text-base
+    "
+  >
+    بارك الله لكما وعليكما، وجمع بينكما في خير
+  </p>
+</div>
     </footer>
   );
 }
